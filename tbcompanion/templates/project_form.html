@@ -1,0 +1,66 @@
+{% extends 'new.html' %}
+
+{% block content %}
+
+<form method = 'POST' action = ''>
+	{{ form.hidden_tag() }}
+	<fieldset class = 'form-group'>
+		<legend>New project</legend>
+		<!-- Title field -->
+		<div class = 'container'>
+			<div>
+				{{ form.title.label(class="form-control-label")}}
+				<!-- Begin invalid form -->
+				{% if form.title.errors %}
+					{{ form.title(class="form-control is-invalid") }}
+					<div class='invalid-feedback'>
+						{% for error in form.title.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				<!-- End invalid form -->
+				{% else %}
+					{{ form.title(class="form-control ")}}
+				{% endif %}
+			</div>
+		<!-- Content field -->
+			<div>
+			{{ form.content.label (class="form-control-label")}}
+			<!-- Begin invalid form -->
+			{% if form.content.errors %}
+				{{ form.content(class="form-control is-invalid") }}
+				<div class='invalid-feedback'>
+					{% for error in form.content.errors %}
+					<span>{{ error }}</span>
+					{% endfor %}
+				</div>
+			<!-- End invalid form -->
+			{% else %}
+				{{ form.content(class="form-control")}}
+			{% endif %}
+			</div>
+			
+		<!-- GitHub Repo field -->
+			<div>
+				{{ form.github_repo.label(class="form-control-label")}}
+				<!-- Begin invalid form -->
+				{% if form.github_repo.errors %}
+					{{ form.github_repo(class="form-control is-invalid") }}
+					<div class='invalid-feedback'>
+						{% for error in form.github_repo.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				<!-- End invalid form -->
+				{% else %}
+					{{ form.github_repo(class="form-control")}}
+				{% endif %}
+				</div>
+		</div>
+	</fieldset>
+	<div>
+		{{ form.submit(class="btn btn-outline-info") }}
+	</div>
+</form>
+
+{% endblock content %}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- Bootstrap CSS -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+			crossorigin="anonymous"
+		/>
+
+		<!-- Custom CSS -->
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename= 'main.css') }}"
+		/>
+
+		<!-- Automatic title -->
+		{% if title %}
+			<title>TBCOMP:: {{ title }}</title>
+		{% else %}
+			<title>TBCOMP</title>
+		{% endif %}
+	</head>
+
+
+<!-- Navbar -->
+
+	<nav class ="navbar navbar-expand navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="{{url_for('home')}}">TB::COMP</a>
+			<ul class="navbar-nav">
+				{% if current_user.is_authenticated %}
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users')}}">Look for a user</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('post_form')}}">Make a post</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('project_form')}}">Release a project</a></li>
+			</ul>
+				<ul class="navbar-nav navbar-right">
+					<li class="navbar-item"><a class="nav-link" href="{{url_for('logout')}}">Logout</a></li>
+					<li class="navbar-item"><a class="nav-link" href="{{url_for('account')}}">Account</a></li>
+					{% else %}
+					<li class="navbar-item"><a class="nav-link" href="{{url_for('login')}}">Login</a></li>
+					<li class="navbar-item"><a class="nav-link" href="{{url_for('register')}}">Register</a></li>
+					{% endif %}
+				</ul>
+
+		</div>
+	</nav>	
+
+
+	<body>
+		<div class="container pt-3">
+			<!-- Begin alert bar -->
+			{% with messages = get_flashed_messages(with_categories=True) %} 
+				{% if messages %} 
+					{% for category, message in messages %}
+						<div class="alert alert-{{category}}">{{ message }}</div>
+					{% endfor %} 
+				{% endif %} 
+			{% endwith %} 
+			<!-- End alert bar -->
+
+			{% block content %}
+			{% endblock content %}
+
+			{% block feed %}
+			{% endblock feed %}
+
+			{% block update_account %}
+			{% endblock update_account %}
+
+
+		</div>
+
+		<!-- Bootstrap Bundle with Popper -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

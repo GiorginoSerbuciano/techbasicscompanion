@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+
+{% block feed %}
+<div class="row">
+	<div class="col">
+		<h1 class="display-1">Posts</h1>
+		{% for post in posts %}
+		<div class="container bg-light pt-2 pb-2 margin">
+			<h3 class="display-6"><a class="text-reset" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h3>
+			<p>By <a href="{{ url_for('user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a> on {{ post.date.strftime('%A, the %dth of %B %Y') }}</p>
+			<p>{{ post.content }}</p>
+		</div>
+		<p></p>
+		{% endfor %}
+	</div>
+	<div class='col'>
+		<h1 class="display-1">Projects</h1>
+	{% for project in projects %}
+		<div class="container bg-light pt-2 pb-2 margin">
+			<h3 class="display-6"><a class="text-reset" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></h3>
+			<small><p>By {{ project.contributor.username }} on {{ project.date.strftime('%A, the %dth of 	%B %Y') }}</p></small>
+			<p>{{ project.content }}</p>
+			<p><a href="{{ project.github_repo }}">{{ project.title }} on GitHub</a></p>
+		</div>
+		<p></p>
+	{% endfor %}
+	</div>
+</div>
+{% endblock feed %}
+

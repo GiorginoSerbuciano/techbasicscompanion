@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+
+{% block feed %}
+<caption><h3>Your posts</h3></caption>
+<table class="striped-table hover-table container-fluid">
+	<thead>
+    	<tr>
+			<th scope="col">id</th>
+    	  	<th scope="col">Title</th>
+    	  	<th scope="col">Author</th>
+            <th scope="col">Tags</th>
+    	  	<th scope="col">Date posted</th>
+    	  	<th scope="col">Last updated</th>
+    	</tr>
+  	</thead>
+	<tbody>
+		{% for post in posts %}
+		<tr>
+            <th scope="col">{{ post.id }}</th>
+			<td><a class="text-reset" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></td>
+            <td><a class="text-reset" href="{{ url_for('user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></td>
+            <td>None</td>
+            <td>{{ post.date.strftime('%Y.%m.%d') }}</td>
+			<td>Never</td>
+		</div>
+		</tr>
+		{% endfor %}
+    </tbody>
+</table>
+<p></p>
+
+<caption><h3>Your projects</h3></caption>
+<table class="striped-table hover-table container-fluid">
+	<thead>
+    	<tr>
+			<th scope="col">id</th>
+    	  	<th scope="col">Title</th>
+    	  	<th scope="col">Author</th>
+            <th scope="col">Tags</th>
+    	  	<th scope="col">Date posted</th>
+    	  	<th scope="col">Last updated</th>
+    	</tr>
+  	</thead>
+	<tbody>
+		{% for project in projects %}
+		<tr>
+            <th scope="col">{{ project.id }}</th>
+			<td><a class="text-reset" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></td>
+            <td><a class="text-reset" href="{{ url_for('user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a></td>
+            <td>None</td>
+            <td>{{ project.date.strftime('%Y.%m.%d') }}</td>
+			<td>Never</td>
+		</div>
+		</tr>
+		{% endfor %}
+    </tbody>
+</table>
+{% endblock feed %}
+
+
+{% block update_account %}
+<hr/>
+<div>
+	<form method = 'POST' action = ''>
+		<fieldset class = 'form-group'>
+			<legend>Change account details:</legend>
+			<!-- Change username form -->
+			<div class = 'container'>
+				<div>
+					{{ form.username.label (class="form-control-label")}}
+					<!-- Begin invalid form -->
+					{% if form.username.errors %}
+						{{ form.username(class="form-control is-invalid") }}
+						<div class='invalid-feedback'>
+							{% for error in form.username.errors %}
+							<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					<!-- End invalid form -->
+					{% else %}
+						{{ form.username (class="form-control")}}
+					{% endif %}
+				</div>
+			<!-- Change email form -->
+				<div>
+				{{ form.email.label (class="form-control-label")}}
+				<!-- Begin invalid form -->
+				{% if form.email.errors %}
+					{{ form.email(class="form-control is-invalid") }}
+					<div class='invalid-feedback'>
+						{% for error in form.email.errors %}
+						<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				<!-- End invalid form -->
+				{% else %}
+					{{ form.email(class="form-control")}}
+				{% endif %}
+				</div>
+			</div>
+		</fieldset>
+	</form>
+</div>
+{% endblock update_account %}

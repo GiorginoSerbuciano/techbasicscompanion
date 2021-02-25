@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+	<h1>{{ project.title }}</h1>
+	<p>By {{ project.contributor.username }} on {{ project.date.strftime('%A, the %dth of %B %Y') }}</p>
+	<p>{{ project.content }}</p>
+
+
+{% endblock content %}
