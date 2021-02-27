@@ -1,16 +1,16 @@
+import os
 from flask import Flask, render_template, url_for, request
 from flask.helpers import flash
 from flask_login import login_user, current_user, logout_user
 from flask_login.utils import login_required
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
-from tbcompanion import app, db, bcrypt
+from tbcompanion import app, db, bcrypt, mail
 from tbcompanion.models import User, Post, Project, Tag
 from tbcompanion.forms import ProjectForm, RegistrationForm, LoginForm, UpdateAccount, PostForm, PasswordReset, ForgotPassword
+from flask_mail import Message
 
-app.config['SECRET_KEY'] = 'ba61fd67ee8ec9771cff83f85d5289c4'
-
-
+app.config['SECRET_KEY'] = os.environ.get('SECRETKEY')
 
 ### PUBLIC PAGES ###
 
@@ -178,14 +178,50 @@ def delete_post(post_id):
 	flash('You have deleted your post!', 'danger')
 	return redirect(url_for('home'))
 
-@app.route('passwordReset', methods=['GET','POST'])
+
+def send_password_reset_email(user):
+	token = user.get_reset_token()
+	msg = Message(
+		'TBCOMP::password_reset',
+		sender='serban.gorga@gmail.com',
+		recipients=[user.email])
+	msg.body=f"""If you reqested a password reset, click this link to reset your password:
+{url_for('password_reset', token=token, _external=True)}
+
+TBCOMP@DEV_GiorginoSerbuciano
+	"""
+	mail.send(msg)
+
+@app.route('/passwordReset', methods=['GET','POST'])
 def password_reset_request():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
-	form = PasswordReset()
+	form = ForgotPassword()
+	if form.validate_on_submit():
+		user =  User.query.filter_by(email=form.email.data).first()
+		send_password_reset_email(user)
+		flash('If this email corresponds to a registered account, you will shortly receive an email with a link to reset your password.', 'info')
+		print('Reset email sent to',user.email)
+		return redirect(url_for('login'))
 	return render_template('password_reset_request.html', title='Reset Password', form=form)
 
 
+
+@app.route('/passwordReset/<token>', methods=['POST'])
+def password_reset(token):
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	user = User.validate_reset_token(token)
+	if not user:
+		flash('Invalid token!', 'warning')
+		return redirect(url_for('password_reset_request'))
+	form = PasswordReset()
+	if form.validate_on_submit():
+		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		user.password = hashed_pass
+		flash('You\'ve set a new password!', 'success')
+		return redirect(url_for('login'))	
+	return render_template('password_reset.html', title='Set a new password', form=form)
 
 @app.route('/admin', methods = ['GET', 'POST'])
 def admin():

@@ -26,12 +26,12 @@ class User(db.Model, UserMixin):
 		return "User('{}','{}','{}')".format(
 			self.username, self.email, self.image_file, self.posts)
 
-	def reset_token_get(self, expires_sec=900):
+	def get_reset_token(self, expires_sec=900):
 		s = Serializer(app.config['SECRET_KEY'], expires_sec)
 		return s.dumps({'user_id': self.id}).decode('utf-8')
 
 	@staticmethod
-	def reset_token_validate(token):
+	def validate_reset_token(token):
 		s = Serializer(app.config['SECRET_KEY'])
 		try:
 			user_id = s.loads(token)['user_id']
