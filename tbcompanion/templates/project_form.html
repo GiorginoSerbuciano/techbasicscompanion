@@ -25,7 +25,7 @@
 			</div>
 		<!-- Content field -->
 			<div>
-			{{ form.content.label (class="form-control-label")}}
+			{{ form.content.label(class="form-control-label") }}
 			<!-- Begin invalid form -->
 			{% if form.content.errors %}
 				{{ form.content(class="form-control is-invalid") }}
@@ -36,13 +36,13 @@
 				</div>
 			<!-- End invalid form -->
 			{% else %}
-				{{ form.content(class="form-control")}}
+				{{ form.content(class="form-control") }}
 			{% endif %}
 			</div>
 			
 		<!-- GitHub Repo field -->
 			<div>
-				{{ form.github_repo.label(class="form-control-label")}}
+				{{ form.github_repo.label(class="form-control-label") }}
 				<!-- Begin invalid form -->
 				{% if form.github_repo.errors %}
 					{{ form.github_repo(class="form-control is-invalid") }}
@@ -53,9 +53,16 @@
 					</div>
 				<!-- End invalid form -->
 				{% else %}
-					{{ form.github_repo(class="form-control")}}
+					{{ form.github_repo(class="form-control") }}
 				{% endif %}
 				</div>
+
+				<select>
+					{% for tag in form.tag %}
+					  <option value="{{tag}}">{{tag}}</option>
+					{% endfor %}
+				</select>
+
 		</div>
 	</fieldset>
 	<div>

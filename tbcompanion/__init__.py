@@ -12,6 +12,5 @@ login_man = LoginManager(app)
 login_man.login_view = 'login'
 login_man.login_message_category = 'info'
 
-# helo plis message for tedi: you are the cutest tedi in the universe and i love youuuuuuuu!!!!!!!!!
 
 from tbcompanion import routes

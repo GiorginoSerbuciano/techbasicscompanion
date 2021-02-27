@@ -104,12 +104,13 @@ class UpdateAccount(FlaskForm):
 
 
 class PasswordReset(FlaskForm):
-	email = StringField('Email', validators=[
+	password = PasswordField('Password', validators=[
 		DataRequired(),
-		Email()
+		Length(min=8)
 	])
-	password = StringField('Password', validators=[
-		DataRequired()
+	confirm_password = PasswordField('Confirm Password', validators=[
+		DataRequired(),
+		EqualTo('password')
 	])
 	submit = SubmitField('Change my password.')
 
@@ -121,7 +122,7 @@ class ForgotPassword(FlaskForm):
 	])
 	submit = SubmitField('Reset my password.')
 
-	def validate_email(self, email):
-		user = User.query.filter_by(email=email.data).first()
-		if user:
-			raise ValidationError('Email is already in use.')
+	# def validate_email(self, email):
+	# 	user = User.query.filter_by(email=email.data).first()
+	# 	if user is None:
+	# 		raise ValidationError('Email is already in use.')

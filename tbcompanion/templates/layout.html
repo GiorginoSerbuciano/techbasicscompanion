@@ -39,30 +39,33 @@
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('users')}}">Look for a user</a></li>
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('post_form')}}">Make a post</a></li>
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('project_form')}}">Release a project</a></li>
-			</ul>
-				<ul class="navbar-nav navbar-right">
-					<li class="navbar-item"><a class="nav-link" href="{{url_for('logout')}}">Logout</a></li>
-					<li class="navbar-item"><a class="nav-link" href="{{url_for('account')}}">Account</a></li>
-					{% else %}
-					<li class="navbar-item"><a class="nav-link" href="{{url_for('login')}}">Login</a></li>
-					<li class="navbar-item"><a class="nav-link" href="{{url_for('register')}}">Register</a></li>
-					{% endif %}
-				</ul>
 
+			</ul>
+			<ul class="navbar-nav navbar-right">
+				{% if current_user.is_admin %}
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin')}}">Admin</a></li>
+				{% endif %}
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('account')}}">Account</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('logout')}}">Logout</a></li>
+				{% else %}
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('login')}}">Login</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('register')}}">Register</a></li>
+				{% endif %}
+			</ul>
 		</div>
-	</nav>	
+	</nav>
 
 
 	<body>
 		<div class="container pt-3">
 			<!-- Begin alert bar -->
-			{% with messages = get_flashed_messages(with_categories=True) %} 
-				{% if messages %} 
+			{% with messages = get_flashed_messages(with_categories=True) %}
+				{% if messages %}
 					{% for category, message in messages %}
 						<div class="alert alert-{{category}}">{{ message }}</div>
-					{% endfor %} 
-				{% endif %} 
-			{% endwith %} 
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
 			<!-- End alert bar -->
 
 			{% block content %}
@@ -77,11 +80,15 @@
 
 		</div>
 
-		<!-- Bootstrap Bundle with Popper -->
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-			crossorigin="anonymous"
-		></script>
+		<!-- Bootstrap Bundle with Popper booper boopidiboop-->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js",
+				integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN",
+				crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js",
+				integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q",
+				crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js",
+				integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl",
+				crossorigin="anonymous"></script>
 	</body>
 </html>

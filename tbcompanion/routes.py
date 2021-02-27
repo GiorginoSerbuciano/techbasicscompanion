@@ -2,12 +2,14 @@ from flask import Flask, render_template, url_for, request
 from flask.helpers import flash
 from flask_login import login_user, current_user, logout_user
 from flask_login.utils import login_required
+from werkzeug.exceptions import abort
 from werkzeug.utils import redirect
 from tbcompanion import app, db, bcrypt
-from tbcompanion.models import User, Post, Project
-from tbcompanion.forms import ProjectForm, RegistrationForm, LoginForm, UpdateAccount, PostForm
+from tbcompanion.models import User, Post, Project, Tag
+from tbcompanion.forms import ProjectForm, RegistrationForm, LoginForm, UpdateAccount, PostForm, PasswordReset, ForgotPassword
 
 app.config['SECRET_KEY'] = 'ba61fd67ee8ec9771cff83f85d5289c4'
+
 
 
 ### PUBLIC PAGES ###
@@ -58,7 +60,7 @@ def login():
 @app.route('/post/<int:post_id>', methods=['GET'])
 def post(post_id):
 	post = Post.query.get_or_404(post_id)
-	return render_template('post.html', title=post.title, post=post)
+	return render_template('post_view.html', title=post.title, post=post)
 
 
 @app.route('/project/<int:project_id>', methods=['GET'])
@@ -70,7 +72,7 @@ def project(project_id):
 @app.route('/logout', methods=['GET'])
 def logout():
 	logout_user()
-	flash('You have been logged out. See ya\'!', 'info')
+	flash('You are logged out. See ya\'!', 'info')
 	return redirect(url_for('home'))
 
 
@@ -98,13 +100,25 @@ def account():
 	posts = Post.query.filter_by(author=current_user)
 	projects = Project.query.filter_by(contributor=current_user)
 	form = UpdateAccount()
-	return render_template('account.html', title=current_user.username, user=current_user, form=form, posts=posts, projects=projects)
+	if form.validate_on_submit():
+		print('Form validated!')
+		current_user.username = form.username.data
+		current_user.email = form.email.data
+		db.session.commit()
+		flash('You have updated your account.', 'success')
+		return redirect(url_for('account'))
+	elif request.method == 'GET':
+		form.username.data = current_user.username
+		form.email.data = current_user.email
+	return render_template('account.html', title=current_user.username,
+		user=current_user, form=form, posts=posts, projects=projects)
 
 
 @app.route('/project/new', methods=['GET', 'POST'])
 @login_required
 def project_form():
 	form = ProjectForm()
+	tags = Tag.query.order_by(Tag.id).all()
 	if form.validate_on_submit():
 		project = Project(
 			title=form.title.data,
@@ -115,7 +129,7 @@ def project_form():
 		db.session.commit()
 		flash('Your project is live!', 'success')
 		return redirect(url_for('home'))
-	return render_template('project_form.html', form=form, type='project')
+	return render_template('project_form.html', form=form, type='project', tags=tags)
 
 
 @app.route('/post/new', methods=['GET', 'POST'])
@@ -126,6 +140,53 @@ def post_form():
 		post = Post(title=form.title.data, content=form.content.data, author=current_user)
 		db.session.add(post)
 		db.session.commit()
-		flash('Your post has been published!', 'success')
+		flash('You have published your post!', 'success')
 		return redirect(url_for('home'))
 	return render_template('post_form.html', form=form, title='New Post')
+
+@app.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+	post = Post.query.get_or_404(post_id)
+	print(post.id)
+	if post.author != current_user:
+		print(current_user)
+		abort(403)
+	form = PostForm()
+	print('Entering validation conditional...')
+	if form.validate_on_submit():
+		post.title = form.title.data
+		post.content = form.content.data
+		db.session.commit()
+		flash('You have updated your post!', 'success')
+		print('Form validated!')
+		return redirect(url_for('post', post_id=post.id))
+	elif request.method == 'GET':
+		form.title.data = post.title
+		form.content.data = post.content
+		print('elif conditional: Filled in form fields!')
+	return render_template('post_form.html', form=form, title='New Post')
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+	post = Post.query.get_or_404(post_id)
+	if post.author != current_user:
+		print(current_user)
+		abort(403)
+	db.session.delete(post)
+	db.session.commit()
+	flash('You have deleted your post!', 'danger')
+	return redirect(url_for('home'))
+
+@app.route('passwordReset', methods=['GET','POST'])
+def password_reset_request():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	form = PasswordReset()
+	return render_template('password_reset_request.html', title='Reset Password', form=form)
+
+
+
+@app.route('/admin', methods = ['GET', 'POST'])
+def admin():
+	return render_template('admin.html')
