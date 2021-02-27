@@ -3,7 +3,7 @@ from flask.helpers import flash
 from flask_login import login_user, logout_user
 from flask_login.utils import login_required
 from tbcompanion import bcrypt
-from tbcompanion.forms import LoginForm
+from tbcompanion.users.forms import LoginForm
 from tbcompanion.models import Post, Project, User
 from werkzeug.utils import redirect
 

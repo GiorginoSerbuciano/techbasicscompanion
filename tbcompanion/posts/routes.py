@@ -3,7 +3,7 @@ from flask.helpers import flash
 from flask_login import current_user
 from flask_login.utils import login_required
 from tbcompanion import db
-from tbcompanion.forms import PostForm
+from tbcompanion.posts.forms import PostForm
 from tbcompanion.models import Post
 from werkzeug.exceptions import abort
 from werkzeug.utils import redirect

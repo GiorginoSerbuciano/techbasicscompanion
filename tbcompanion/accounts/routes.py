@@ -4,8 +4,8 @@ from flask_login import current_user
 from flask_login.utils import login_required
 from flask_mail import Message
 from tbcompanion import bcrypt, db, mail
-from tbcompanion.forms import (ForgotPassword, PasswordReset, RegistrationForm,
-                               UpdateAccount)
+from tbcompanion.accounts.forms import (ForgotPassword, PasswordReset,
+                                        RegistrationForm, UpdateAccount)
 from tbcompanion.models import Post, Project, User
 from werkzeug.utils import redirect
 

@@ -3,7 +3,7 @@ from flask.helpers import flash
 from flask_login import current_user
 from flask_login.utils import login_required
 from tbcompanion import db
-from tbcompanion.forms import ProjectForm
+from tbcompanion.projects.forms import ProjectForm
 from tbcompanion.models import Project, Tag
 from werkzeug.utils import redirect
 
