@@ -17,8 +17,8 @@
 		{% for post in posts %}
 		<tr>
             <th scope="col">{{ post.id }}</th>
-			<td><a class="text-reset" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></td>
-            <td><a class="text-reset" href="{{ url_for('user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></td>
+			<td><a class="text-reset" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></td>
+            <td><a class="text-reset" href="{{ url_for('users.user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></td>
             <td>None</td>
             <td>{{ post.date.strftime('%Y.%m.%d') }}</td>
 			<td>Never</td>
@@ -44,8 +44,8 @@
 		{% for project in projects %}
 		<tr>
             <th scope="col">{{ project.id }}</th>
-			<td><a class="text-reset" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></td>
-            <td><a class="text-reset" href="{{ url_for('user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a></td>
+			<td><a class="text-reset" href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a></td>
+            <td><a class="text-reset" href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a></td>
             <td>None</td>
             <td>{{ project.date.strftime('%Y.%m.%d') }}</td>
 			<td>Never</td>

@@ -6,8 +6,8 @@
 		<h1 class="display-1">Posts</h1>
 		{% for post in posts %}
 		<div class="container bg-light pt-2 pb-2 margin">
-			<small><a href="{{ url_for('user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></small>
-			:: <a class="text-reset" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a>
+			<small><a href="{{ url_for('users.user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></small>
+			:: <a class="text-reset" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
 			<small><p>{{ post.date.strftime('%A, the %dth of %B %Y') }}</p></small>
 			<p>{{ post.content }}</p>
 		</div>
@@ -19,9 +19,9 @@
 		<h1 class="display-1">Projects</h1>
 	{% for project in projects %}
 		<div class="container bg-light pt-2 pb-2 margin">
-			<h3><a class="text-reset" href="{{ url_for('project', project_id=project.id) }}">{{ project.title }}</a></h3>
+			<h3><a class="text-reset" href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a></h3>
 			<p>{{ project.content }}</p>
-			<small>Contributors: <a href="{{ url_for('user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a>
+			<small>Contributors: <a href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a>
 			<p><a href="{{ project.github_repo }}">{{ project.title }} on GitHub</a></p></small>
 		</div>
 		<p></p>

@@ -1,19 +1,12 @@
-import os
-
 from flask import Flask
-from flask_login.utils import login_required
-from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_sqlalchemy import SQLAlchemy
+from tbcompanion.config import Config
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_POST'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASSWORD')
+app.config.from_object(Config)
 
 
 mail = Mail(app)
@@ -21,8 +14,20 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_man = LoginManager(app)
 
-login_man.login_view = 'login'
+login_man.login_view = 'users.login'
 login_man.login_message_category = 'info'
 
 
-from tbcompanion import routes
+from tbcompanion.accounts.routes import accounts
+from tbcompanion.admin.routes import admin
+from tbcompanion.main.routes import main
+from tbcompanion.posts.routes import posts
+from tbcompanion.projects.routes import projects
+from tbcompanion.users.routes import users
+
+app.register_blueprint(accounts)
+app.register_blueprint(admin)
+app.register_blueprint(main)
+app.register_blueprint(posts)
+app.register_blueprint(projects)
+app.register_blueprint(users)

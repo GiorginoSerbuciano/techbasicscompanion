@@ -1,10 +1,10 @@
 import os
 
-from flask import render_template
+from flask import render_template, Blueprint
 from tbcompanion import app
 from tbcompanion.models import Post, Project
 
-app.config['SECRET_KEY'] = os.environ.get('SECRETKEY')
+main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():

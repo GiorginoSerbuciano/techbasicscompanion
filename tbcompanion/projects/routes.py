@@ -28,7 +28,7 @@ def project_form():
 		db.session.add(project)
 		db.session.commit()
 		flash('Your project is live!', 'success')
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	return render_template('project_form.html', form=form, type='project', tags=tags)
 
 

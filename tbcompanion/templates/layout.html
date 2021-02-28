@@ -33,23 +33,23 @@
 
 	<nav class ="navbar navbar-expand navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="{{url_for('home')}}">TB::COMP</a>
+			<a class="navbar-brand" href="{{url_for('main.home')}}">TB::COMP</a>
 			<ul class="navbar-nav">
 				{% if current_user.is_authenticated %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('users')}}">Look for a user</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('post_form')}}">Make a post</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('project_form')}}">Release a project</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.search_users')}}">Look for a user</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('posts.post_form')}}">Make a post</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('projects.project_form')}}">Release a project</a></li>
 
 			</ul>
 			<ul class="navbar-nav navbar-right">
 				{% if current_user.is_admin %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin')}}">Admin</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin.admin_panel')}}">Admin</a></li>
 				{% endif %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('account')}}">Account</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('logout')}}">Logout</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.account_page')}}">Account</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.logout')}}">Logout</a></li>
 				{% else %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('login')}}">Login</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('register')}}">Register</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.login')}}">Login</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.register')}}">Register</a></li>
 				{% endif %}
 			</ul>
 		</div>

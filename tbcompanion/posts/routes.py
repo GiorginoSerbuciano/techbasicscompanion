@@ -25,7 +25,7 @@ def post_form():
 		db.session.add(post)
 		db.session.commit()
 		flash('You have published your post!', 'success')
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	return render_template('post_form.html', form=form, title='New Post')
 
 @posts.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
@@ -44,7 +44,7 @@ def update_post(post_id):
 		db.session.commit()
 		flash('You have updated your post!', 'success')
 		print('Form validated!')
-		return redirect(url_for('post', post_id=post.id))
+		return redirect(url_for('posts.post', post_id=post.id))
 	elif request.method == 'GET':
 		form.title.data = post.title
 		form.content.data = post.content
@@ -60,4 +60,4 @@ def delete_post(post_id):
 	db.session.delete(post)
 	db.session.commit()
 	flash('You have deleted your post!', 'danger')
-	return redirect(url_for('home'))
+	return redirect(url_for('main.home'))

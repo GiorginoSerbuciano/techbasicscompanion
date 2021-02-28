@@ -19,7 +19,7 @@ def login():
 			login_user(user, remember=form.remember.data)
 			after_login_page = request.args.get('next')
 			flash(f'Welcome back, {user.username}!', 'success')
-			return redirect(after_login_page) if after_login_page else redirect(url_for('home'))
+			return redirect(after_login_page) if after_login_page else redirect(url_for('main.home'))
 		else:
 			flash('Login unsuccessful. :(', 'danger')
 	return render_template('login.html', title='Login', form=form)
@@ -29,11 +29,11 @@ def login():
 def logout():
 	logout_user()
 	flash('You are logged out. See ya\'!', 'info')
-	return redirect(url_for('home'))
+	return redirect(url_for('main.home'))
 
 @users.route('/users')
 @login_required
-def users():
+def search_users():
 	users = User.query.all()
 	return render_template('user_search.html', users=users)
 

@@ -16,7 +16,7 @@ accounts = Blueprint('accounts', __name__)
 def register():
 	if current_user.is_authenticated:
 		flash('You are already registered!')
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
 		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -24,14 +24,14 @@ def register():
 		db.session.add(user)
 		db.session.commit()
 		flash(f'Welcome, {form.username.data}!', 'success')
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	return render_template('register.html', title='Register', form=form)
 
 
 ### ACCOUNT PAGE & DETAILS UPDATE ### 
 @accounts.route('/account', methods=['GET', 'POST'])
 @login_required
-def account():
+def account_page():
 	posts = Post.query.filter_by(author=current_user)
 	projects = Project.query.filter_by(contributor=current_user)
 	form = UpdateAccount()
@@ -41,7 +41,7 @@ def account():
 		current_user.email = form.email.data
 		db.session.commit()
 		flash('You have updated your account.', 'success')
-		return redirect(url_for('account'))
+		return redirect(url_for('accounts.account'))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
 		form.email.data = current_user.email
@@ -58,7 +58,7 @@ def send_password_reset_email(user):
 		sender='serban.gorga@gmail.com',
 		recipients=[user.email])
 	msg.body=f"""If you reqested a password reset, click this link to reset your password:
-{url_for('password_reset', token=token, _external=True)}
+{url_for('accounts.password_reset', token=token, _external=True)}
 
 TBCOMP@DEV_GiorginoSerbuciano
 	"""
@@ -67,14 +67,14 @@ TBCOMP@DEV_GiorginoSerbuciano
 @accounts.route('/passwordReset', methods=['GET','POST'])
 def password_reset_request():
 	if current_user.is_authenticated:
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	form = ForgotPassword()
 	if form.validate_on_submit():
 		user =  User.query.filter_by(email=form.email.data).first()
 		send_password_reset_email(user)
 		flash('If this email corresponds to a registered account, you will shortly receive an email with a link to reset your password.', 'info')
 		print('Reset email sent to',user.email)
-		return redirect(url_for('login'))
+		return redirect(url_for('users.login'))
 	return render_template('password_reset_request.html', title='Reset Password', form=form)
 
 
@@ -82,17 +82,17 @@ def password_reset_request():
 @accounts.route('/passwordReset/<token>', methods=['POST'])
 def password_reset(token):
 	if current_user.is_authenticated:
-		return redirect(url_for('home'))
+		return redirect(url_for('main.home'))
 	user = User.validate_reset_token(token)
 	if not user:
 		flash('Invalid token!', 'warning')
-		return redirect(url_for('password_reset_request'))
+		return redirect(url_for('accounts.password_reset_request'))
 	form = PasswordReset()
 	if form.validate_on_submit():
 		hashed_pass = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 		user.password = hashed_pass
 		flash('You\'ve set a new password!', 'success')
-		return redirect(url_for('login'))	
+		return redirect(url_for('users.login'))	
 	return render_template('password_reset.html', title='Set a new password', form=form)
 
 ### END PASSWORD RESET ###

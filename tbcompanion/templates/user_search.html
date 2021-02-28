@@ -4,7 +4,7 @@
 <h1>Registered users</h1>
 
 {% for user in users %}
-	<a href="{{ url_for('user_profile', user_id=user.id) }}"> {{ user.username }} </a>
+	<a href="{{ url_for('users.user_profile', user_id=user.id) }}"> {{ user.username }} </a>
 	<p></p>
 {% endfor %}
 {% endblock content %}
