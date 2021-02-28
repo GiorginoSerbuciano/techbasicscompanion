@@ -34,32 +34,28 @@
 
 <!-- Navbar -->
 
-	<nav class ="navbar navbar-light">
+		
+	<body>
+
 		<div class="sidebar">
 			<ul class="navbar-nav">
 				<a class="logo" href="{{url_for('main.home')}}">TBCOMP::</a>
-				<small class="logo-title">{{ title }}</small>
 				{% if current_user.is_authenticated %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.search_users')}}">Look for a user</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('posts.post_form')}}">Make a post</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('projects.project_form')}}">Release a project</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.search_users')}}">registered users</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('posts.post_form')}}">make a post</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('projects.project_form')}}">release a project</a></li>
 
 				{% if current_user.is_admin %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin.admin_panel')}}">Admin</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin.admin_panel')}}">admin</a></li>
 				{% endif %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.account_page')}}">Account</a></li>
-				<li class="navbar-item"><a  id='logout' class="nav-link" href="{{url_for('users.logout')}}">Logout</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.account_page')}}">account</a></li>
+				<li class="navbar-item"><a  id='logout' class="nav-link" href="{{url_for('users.logout')}}">logout</a></li>
 				{% else %}
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.login')}}">Login</a></li>
-				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.register')}}">Register</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.login')}}">log in</a></li>
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.register')}}">register</a></li>
 				{% endif %}
 			</ul>
 		</div>
-	</nav>
-
-
-	<body>
-		<div class="container pt-3">
 			<!-- Begin alert bar -->
 			{% with messages = get_flashed_messages(with_categories=True) %}
 				{% if messages %}
@@ -78,7 +74,6 @@
 
 			{% block update_account %}
 			{% endblock update_account %}
-
 
 		</div>
 

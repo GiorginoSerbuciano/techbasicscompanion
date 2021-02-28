@@ -7,6 +7,7 @@
 	<p>{{ post.content }}</p>
 	{% if post.author == current_user %}
 
+	<!-- TODO: Restyle button -->
 		<a type="button" class="btn btn-secondary" href="{{url_for('posts.update_post', post_id=post.id)}}">Update</a>
 		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete</button>
 

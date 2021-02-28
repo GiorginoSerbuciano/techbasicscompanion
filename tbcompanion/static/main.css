@@ -1,10 +1,12 @@
 a.logo {
-	font-size: 2.5em;
+	font-size: 1.5rem;
 	font-style: normal;
 	font-weight: 900;
 	letter-spacing: 0em;
 	color: black;
 	text-decoration: none;
+	padding-bottom:1rem;
+	padding-top:1rem;
 }
 
 a[type="button"].btn.btn-secondary {
@@ -13,7 +15,7 @@ a[type="button"].btn.btn-secondary {
 
 	
 small.logo-title {
-	font-size: 2em;
+	font-size: 1.3rem;
 	line-height: 38px;
 	font-weight: 700;
 	font-style: normal;
@@ -30,26 +32,27 @@ small.logo-title {
 	left: 0;
 	background-color:white;
 	overflow-x: hidden;
-	padding-top: 50px;
-	padding-left: 25px;
+	padding-left: 1rem;
   }
 
 
 .navbar-item {
-	padding-left: 20px;
+	padding-left: 1rem;
+	font-size:1em;
   }
 
-ul.navlist{
-	padding-top:50px;
+.nav-link {
+	color:black;
+	text-decoration: none;
 }
-
 
 #logout.nav-link{
 	color:red;
 }
 
 body {
-	padding-left:25%;
+	padding-left:20%;
+	padding-top:1rem;
 }
 
 h1.error {
@@ -64,4 +67,10 @@ h2.error{
 	font-size:50pt;
 	font-weight:900;
 	text-align:right;
+}
+
+h1.title{
+	color:black;
+	font-size:2em;
+	font-weight:800;
 }

@@ -31,11 +31,15 @@ def logout():
 	flash('You are logged out. See ya\'!', 'info')
 	return redirect(url_for('main.home'))
 
+# TODO: Restyle flash messages
+
 @users.route('/users')
 @login_required
 def search_users():
 	users = User.query.all()
-	return render_template('user_search.html', users=users)
+	return render_template('user_search.html', 
+		users=users,
+		title='Users')
 
 
 @users.route('/users/<int:user_id>')
@@ -44,4 +48,8 @@ def user_profile(user_id):
 	user = User.query.get_or_404(user_id)
 	posts = Post.query.filter_by(author=user)
 	projects = Project.query.filter_by(contributor=user)
-	return render_template('user_profile.html', user=user, posts=posts, projects=projects)
+	return render_template('user_profile.html', 
+		user=user, 
+		posts=posts, 
+		projects=projects,
+		title=user.username)

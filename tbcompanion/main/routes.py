@@ -14,3 +14,5 @@ def home():
 @main.route('/about')
 def about():
 	return render_template('about.html', title='About')
+
+#TODO: Complete 'about'

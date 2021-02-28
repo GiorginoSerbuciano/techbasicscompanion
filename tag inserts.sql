@@ -29,3 +29,5 @@ insert into tag values(6, "Meta", "Contributions to the CPython distribution");
 insert into tag values(7, "Other", "Projects written in languages other than Python or that refuse categorization (edgy)");
 
 insert into tag values(1, "None", "Default value. Pick this if you do not want your project to be tagged. (Excludes it from tag-search)")
+
+-- TODO: Comment this code

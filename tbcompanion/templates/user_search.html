@@ -6,5 +6,7 @@
 {% for user in users %}
 	<a href="{{ url_for('users.user_profile', user_id=user.id) }}"> {{ user.username }} </a>
 	<p></p>
+
+<!-- TODO: Table & searchbox -->
 {% endfor %}
 {% endblock content %}

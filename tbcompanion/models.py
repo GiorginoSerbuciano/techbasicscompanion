@@ -73,3 +73,5 @@ class Tag(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(20), nullable=False, unique=True)
 	project_id = db.relationship('Project', backref='tag', lazy=True)
+
+# TODO: Create post tags?
