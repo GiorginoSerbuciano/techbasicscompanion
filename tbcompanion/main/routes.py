@@ -1,7 +1,6 @@
 import os
 
 from flask import render_template, Blueprint
-from tbcompanion import app
 from tbcompanion.models import Post, Project
 
 main = Blueprint('main', __name__)

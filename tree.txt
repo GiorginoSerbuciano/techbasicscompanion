@@ -1,0 +1,87 @@
+Folder PATH listing
+Volume serial number is B8E9-2D67
+C:.
+|   .gitattributes
+|   main.py
+|   README.md
+|   setup.py
+|   tag inserts.sql
+|   tree.txt
+|   
++---.idea
+|   |   .gitignore
+|   |   misc.xml
+|   |   modules.xml
+|   |   techbasicscompanion.iml
+|   |   vcs.xml
+|   |   workspace.xml
+|   |   
+|   +---codeStyles
+|   |       codeStyleConfig.xml
+|   |       
+|   \---inspectionProfiles
+|           profiles_settings.xml
+|           
+\---tbcompanion
+    |   config.py
+    |   database.db
+    |   models.py
+    |   __init__.py
+    |   
+    +---accounts
+    |       forms.py
+    |       func.py
+    |       routes.py
+    |       __init__.py
+    |       
+    +---admin
+    |       forms.py
+    |       routes.py
+    |       __init__.py
+    |       
+    +---main
+    |       forms.py
+    |       routes.py
+    |       __init__.py
+    |       
+    +---posts
+    |       forms.py
+    |       routes.py
+    |       __init__.py
+    |       
+    +---projects
+    |       forms.py
+    |       routes.py
+    |       __init__.py
+    |       
+    +---static
+    |       bootstrap.min.css
+    |       main.css
+    |       
+    +---templates
+    |       about.html
+    |       account.html
+    |       admin.html
+    |       home.html
+    |       layout.html
+    |       login.html
+    |       modal.html
+    |       new.html
+    |       password_reset.html
+    |       password_reset_request.html
+    |       post_form.html
+    |       post_view.html
+    |       project_form.html
+    |       project_view.html
+    |       register.html
+    |       user_profile.html
+    |       user_search.html
+    |       user_template.html
+    |       
+    \---users
+            forms.py
+            func.py
+            routes.py
+            Search.code-search
+            __init__.py
+            

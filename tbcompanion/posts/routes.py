@@ -14,7 +14,7 @@ posts = Blueprint('posts', __name__)
 @posts.route('/post/<int:post_id>', methods=['GET'])
 def post(post_id):
 	post = Post.query.get_or_404(post_id)
-	return render_template('post_view.html', title=post.title, post=post)
+	return render_template('post_view.html', post=post)
 
 @posts.route('/post/new', methods=['GET', 'POST'])
 @login_required
@@ -32,9 +32,7 @@ def post_form():
 @login_required
 def update_post(post_id):
 	post = Post.query.get_or_404(post_id)
-	print(post.id)
 	if post.author != current_user:
-		print(current_user)
 		abort(403)
 	form = PostForm()
 	print('Entering validation conditional...')

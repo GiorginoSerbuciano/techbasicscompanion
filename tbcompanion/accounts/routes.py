@@ -41,12 +41,16 @@ def account_page():
 		current_user.email = form.email.data
 		db.session.commit()
 		flash('You have updated your account.', 'success')
-		return redirect(url_for('accounts.account'))
+		return redirect(url_for('accounts.account_page'))
 	elif request.method == 'GET':
 		form.username.data = current_user.username
 		form.email.data = current_user.email
-	return render_template('account.html', title=current_user.username,
-		user=current_user, form=form, posts=posts, projects=projects)
+	return render_template('account.html',
+		title=current_user.username,
+		user=current_user, 
+		form=form, 
+		posts=posts, 
+		projects=projects)
 
 
 ### BEGIN PASSWORD RESET ###
@@ -75,7 +79,9 @@ def password_reset_request():
 		flash('If this email corresponds to a registered account, you will shortly receive an email with a link to reset your password.', 'info')
 		print('Reset email sent to',user.email)
 		return redirect(url_for('users.login'))
-	return render_template('password_reset_request.html', title='Reset Password', form=form)
+	return render_template('password_reset_request.html', 
+		title='Reset Password', 
+		form=form)
 
 
 ### PASSWORD IS RESET HERE ###
@@ -93,7 +99,9 @@ def password_reset(token):
 		user.password = hashed_pass
 		flash('You\'ve set a new password!', 'success')
 		return redirect(url_for('users.login'))	
-	return render_template('password_reset.html', title='Set a new password', form=form)
+	return render_template('password_reset.html', 
+		title='Set a new password', 
+		form=form)
 
 ### END PASSWORD RESET ###
 
