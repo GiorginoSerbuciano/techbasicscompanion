@@ -3,5 +3,85 @@
 <!-- TODO: Complete this page! -->
 
 {% block content %}
-	<h1>TechBasicsCompanion</h1>
+	
+	<div class="container" >
+		<div class="row">
+			<div class="col-sm">
+			</div>
+			<div class="col-sm">
+				<pre>
+from tbcompanion.models import User
+from flask import SQLAlchemy, url_for
+from werkzeug.utils import redirect
+
+db = SQLAlchemy()
+
+class Website():
+	def __init__(self, name, desc, contributors):
+		self.name = "TechBasicsCompanion"
+		self.desc = "A platform dedicated to TechBasics students and their projects!"
+		self.contributors = ["Șerban Gorga (@GiorginoSerbuciano)", "Helena Lingor"]
+
+	def welcome():
+		print("Welcome to TechBasicsCompanion, aka TBCOMP!")
+
+
+	def intro():
+		user = User.query.filter_by(username=current_user.username)
+		if not current_user.is_authenticated:
+			print("""
+			TechBasicsCompanion offers Tech Basics students a dedicated 
+			space for sharing and experimenting with their programming 
+			projects. While TBCOMP is primarily aimed at Python development,
+			your project doesn't have to be fully written in Python
+			to make a valuable contribution to the website.
+			""")
+		elif len(user.projects) == 0:
+			print("""
+			On TBCOMP, you can categorise your projects according
+			to their conceptual and/or thematic focus. A single
+			project can be attributed to multiple contributors. 
+			You can search for projects by name, contributors or tags. 
+			(Naturally, you can choose to exclude your project from
+			the tagging system, meaning it will not be possible to
+			search it back by tag). You are invited to provide a
+			description of your project and link it to its Github
+			repository.
+			""")
+			return redirect(url_for('project_form'))
+		elif len(user.posts) == 0:
+			print("""
+			TBCOMP also offers the ability to create posts and link
+			them to projects. These are the project's 'feed'.
+			This way, project contributors can offer updates without
+			cluttering up their project entries. All posts can be
+			read and replied to by everyone else on the platform,
+			listed on the front page in order of newest first.
+			""")
+			return redirect(url_for('post_form'))
+		else:
+			print("""
+			Browsing projects and posts does not require registration.
+			You can also leave comments on other people's entries.
+			Signing up allows you to create your own entries.
+			""")
+		
+	def privacy(ads=None, access='private', password=password_hash):
+		print("""
+			Login details are encrypted, meaning that nobody 
+			has access to your account; not even developers. 
+			Your information is not shared with any third parties. 
+			""")
+
+	def outro():
+		print("Thank you for engaging with and supporting the project!")
+	
+
+			@GiorginoSerbuciano 2021
+			</pre>
+			</div>
+			<div class="col-sm">	
+			</div>
+		</div>
+	  </div>
 {% endblock content %}

@@ -48,9 +48,11 @@
 				{% if current_user.is_admin %}
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('admin.admin_panel')}}">admin</a></li>
 				{% endif %}
+
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.account_page')}}">account</a></li>
 				<li class="navbar-item"><a  id='logout' class="nav-link" href="{{url_for('users.logout')}}">logout</a></li>
 				{% else %}
+				<li class="navbar-item"><a class="nav-link" href="{{url_for('main.about')}}">about</a></li>
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('users.login')}}">log in</a></li>
 				<li class="navbar-item"><a class="nav-link" href="{{url_for('accounts.register')}}">register</a></li>
 				{% endif %}
