@@ -1,4 +1,5 @@
 from flask_wtf.form import FlaskForm
+from flask_login import current_user
 from wtforms.fields.core import SelectField, StringField
 from wtforms.fields.simple import SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired, Length, ValidationError
@@ -17,7 +18,7 @@ class ProjectForm(FlaskForm):
 	github_repo = StringField('URL to GitHub Repository', validators=[
 		Length(max=120),
 	])
-	contributors = StringField('Contributors (separated by a comma)')
+	contributors = StringField('List contributors in the format "User1, User2, User3"')
 	dropdown_tags = [
 		(None,'None'), 
 		('art','Art'), 
@@ -40,8 +41,11 @@ class ProjectForm(FlaskForm):
 			raise ValidationError('Invalid URL.')
 
 	def validate_contributors(self, contributors):
-		contributors_list = contributors.data.split(',')
-		for contributor in contributors_list:
-			user = User.query.filter_by(username=contributor).first()
-			if not user:
-				raise ValidationError(f'The user "{contributor}" does not exist!')
+		contributors_list = contributors.data.split(', ')
+		if len(contributors_list) > 1:
+			for contributor in contributors_list:
+				user = User.query.filter_by(username=contributor).first()
+				if not user:
+					raise ValidationError(f'The user "{contributor}" does not exist!')
+				elif user == current_user:
+					raise ValidationError(f'No need to pass yourself as a contributor ;).')

@@ -20,12 +20,13 @@ class User(db.Model, UserMixin):
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	is_admin = db.Column(db.Boolean)
-	posts = db.relationship('Post', backref='author', lazy=True)
-	projects = db.relationship('Project', backref='contributors', lazy=True)
+	post_author = db.relationship('Post', backref='author', lazy=True)
+	project_admin = db.relationship('Project', backref='admin', lazy=True)
+	project_contributor = db.relationship('Project', backref='contributor', lazy=True)
 
 	def __repr__(self):
 		return "User('{}','{}','{}')".format(
-			self.username, self.email, self.image_file, self.posts)
+			self.username, self.email, self.image_file, self.post_author)
 
 	def get_reset_token(self, expires_sec=900):
 		s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -45,7 +46,7 @@ class Post(db.Model):
 	title = db.Column(db.String(120), nullable=False)
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
 	def __repr__(self):
@@ -59,7 +60,7 @@ class Project(db.Model):
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
 	github_repo = db.Column(db.String(120), nullable=True, unique=True)
-	admin = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	admin_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	tag = db.Column(db.String, nullable=True)
 
 	def __repr__(self):

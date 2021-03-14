@@ -24,7 +24,7 @@ def post_form():
 		post = Post(
 			title=form.title.data, 
 			content=form.content.data, 
-			author=current_user,
+			post_author=current_user,
 			project_id=form.project_id.data)
 		db.session.add(post)
 		db.session.commit()
