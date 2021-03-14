@@ -21,7 +21,11 @@ def post(post_id):
 def post_form():
 	form = PostForm()
 	if form.validate_on_submit():
-		post = Post(title=form.title.data, content=form.content.data, author=current_user)
+		post = Post(
+			title=form.title.data, 
+			content=form.content.data, 
+			author=current_user,
+			project_id=form.project_id.data)
 		db.session.add(post)
 		db.session.commit()
 		flash('You have published your post!', 'success')

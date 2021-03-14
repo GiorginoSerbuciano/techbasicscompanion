@@ -23,8 +23,6 @@ class User(db.Model, UserMixin):
 	posts = db.relationship('Post', backref='author', lazy=True)
 	projects = db.relationship('Project', backref='contributor', lazy=True)
 
-	# backref: like adding a new column using Post.author;
-	# lazy: can return all posts by the same author
 	def __repr__(self):
 		return "User('{}','{}','{}')".format(
 			self.username, self.email, self.image_file, self.posts)
@@ -48,8 +46,8 @@ class Post(db.Model):
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
-	# id of the user; 'user' is not the object, but the table name!
 	def __repr__(self):
 		return "Post('{}','{}','{}')".format(
 			self.title, self.date, self.user_id)
@@ -64,15 +62,7 @@ class Project(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	tag = db.Column(db.String, nullable=True)
 
-	# id of the user; 'user' is not the object, but the table name!
 	def __repr__(self):
 		return "Project('{}','{}','{}')".format(
 			self.title, self.date, self.user_id)
 
-
-# class Tag(db.Model):
-# 	id = db.Column(db.Integer, primary_key=True)
-# 	name = db.Column(db.String(20), nullable=False, unique=True)
-# 	project_id = db.relationship('Project', backref='tag', lazy=True)
-
-# TODO: Link posts to projects
