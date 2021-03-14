@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block feed %}
-<caption><h3>Your posts</h3></caption>
+<caption><h3>{{ user.username }}'s posts</h3></caption>
 <table class="striped-table hover-table container-fluid">
 	<thead>
     	<tr>
@@ -28,7 +28,7 @@
 </table>
 <p></p>
 
-<caption><h3>Your projects</h3></caption>
+<caption><h3>{{ user.username }}'s projects</h3></caption>
 <table class="striped-table hover-table container-fluid">
 	<thead>
     	<tr>

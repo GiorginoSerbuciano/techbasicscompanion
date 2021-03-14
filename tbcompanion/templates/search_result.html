@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% for post in posts %}
+	{% if string == post.title %}
+		<p>{{ post.title }}</p>
+	{% endif %}
+{% endfor %}
+
+{% for project in projects %}
+	{% if string == project.title %}
+		<p>{{ project.title }}</p>
+	{% endif %}
+{% endfor %}
+
+{% for user in users %}
+	{% if string == user.username %}
+		<p>{{ user.username }}</p>
+	{% endif %}
+{% endfor %}
+
+{% endblock content %}

@@ -1,29 +1,58 @@
 {% extends 'layout.html' %}
 
 <!-- TODO: Reformat 'feed' block -->
+<!-- TODO: Search -->
+
+{% block content %}
+
+<form method = 'POST' action =''>
+	{{ form.hidden_tag() }}
+	<fieldset class = 'form-group'>
+		<div class = 'container'>
+			<div>{{ form.string.label(class="form-control-label") }}
+			<!-- Begin invalid form -->
+			{% if form.string.errors %}
+				{{ form.string(class="form-control is-invalid") }}
+				<div class='invalid-feedback'>
+					{% for error in form.string.errors %}
+					<span>{{ error }}</span>
+					{% endfor %}
+				</div>
+		<!-- End invalid form -->
+			{% else %}
+				{{ form.string(class="form-control")}}
+			{% endif %}
+			</div>
+		</div>
+	</fieldset>
+</form>
+
+{% endblock content %}
 
 {% block feed %}
 <div class="row">
 	<div class="col">
-		<h1 class="display-1">Posts</h1>
+		<h1>Posts</h1>
 		{% for post in posts %}
 		<div class="container bg-light pt-2 pb-2 margin">
-			<small><a href="{{ url_for('users.user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></small>
-			:: <a class="text-reset" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
-			<small><p>{{ post.date.strftime('%A, the %dth of %B %Y') }}</p></small>
+			<a class="text-reset" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
+			
+			
+			<p>{{ post.date.strftime('%A, the %dth of %B %Y') }}</p>
 			<p>{{ post.content }}</p>
+			<p>By <a href="{{ url_for('users.user_profile', user_id=post.author.id) }}">{{ post.author.username }}</a></p>
 		</div>
 
 		<p></p>
 		{% endfor %}
 	</div>
 	<div class='col'>
-		<h1 class="display-1">Projects</h1>
+		<h1>Projects</h1>
 	{% for project in projects %}
 		<div class="container bg-light pt-2 pb-2 margin">
-			<h3><a class="text-reset" href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a></h3>
+			<a href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a> [{{ project.tag }}]</h3>
 			<p>{{ project.content }}</p>
-			<small>Contributors: <a href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a>
+			Contributors: <a href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a>
 			<p><a href="{{ project.github_repo }}">{{ project.title }} on GitHub</a></p></small>
 		</div>
 		<p></p>
