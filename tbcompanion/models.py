@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
 	password = db.Column(db.String(60), nullable=False)
 	is_admin = db.Column(db.Boolean)
 	posts = db.relationship('Post', backref='author', lazy=True)
-	projects = db.relationship('Project', backref='contributor', lazy=True)
+	projects = db.relationship('Project', backref='contributors', lazy=True)
 
 	def __repr__(self):
 		return "User('{}','{}','{}')".format(
@@ -59,10 +59,10 @@ class Project(db.Model):
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
 	github_repo = db.Column(db.String(120), nullable=True, unique=True)
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	admin = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	tag = db.Column(db.String, nullable=True)
 
 	def __repr__(self):
 		return "Project('{}','{}','{}')".format(
-			self.title, self.date, self.user_id)
+			self.title, self.date)
 
