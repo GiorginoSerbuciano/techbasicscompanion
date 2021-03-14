@@ -7,7 +7,6 @@
 	<fieldset class = 'form-group'>
 		<legend>New project</legend>
 		<!-- Title field -->
-		<div class = 'container'>
 			<div>
 				{{ form.title.label(class="form-control-label")}}
 				<!-- Begin invalid form -->
@@ -42,36 +41,30 @@
 			
 		<!-- GitHub Repo field -->
 			<div>
-				{{ form.github_repo.label(class="form-control-label") }}
-				<!-- Begin invalid form -->
-				{% if form.github_repo.errors %}
-					{{ form.github_repo(class="form-control is-invalid") }}
-					<div class='invalid-feedback'>
-						{% for error in form.github_repo.errors %}
-						<span>{{ error }}</span>
-						{% endfor %}
-					</div>
-				<!-- End invalid form -->
-				{% else %}
-					{{ form.github_repo(class="form-control") }}
-				{% endif %}
+			{{ form.github_repo.label(class="form-control-label") }}
+			<!-- Begin invalid form -->
+			{% if form.github_repo.errors %}
+				{{ form.github_repo(class="form-control is-invalid") }}
+				<div class='invalid-feedback'>
+					{% for error in form.github_repo.errors %}
+					<span>{{ error }}</span>
+					{% endfor %}
 				</div>
+			<!-- End invalid form -->
+			{% else %}
+				{{ form.github_repo(class="form-control") }}
+			{% endif %}
+			</div>
+				{{ form.tag.label }}
+				{{ form.tag }}
+			<div>
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
 
 				<!-- TODO: Fix tag selection -->
 
-				<select>
-					{% for tag in form.tag %}
-					  <option value="{{tag}}">{{tag}}</option>
-					{% endfor %}
-				</select>
 
-
-
-		</div>
 	</fieldset>
-	<div>
-		{{ form.submit(class="btn btn-outline-info") }}
-	</div>
 </form>
 
 {% endblock content %}

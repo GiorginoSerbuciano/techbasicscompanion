@@ -31,7 +31,7 @@ def logout():
 	flash('You are logged out. See ya\'!', 'info')
 	return redirect(url_for('main.home'))
 
-# TODO: Restyle flash messages
+# [CANCELLED] TODO: Restyle flash messages
 
 @users.route('/users')
 @login_required

@@ -7,6 +7,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from tbcompanion import db, login_man
 
 
+
 @login_man.user_loader
 def load_user(user_id):
 	return User.query.get(int(user_id))
@@ -59,9 +60,9 @@ class Project(db.Model):
 	title = db.Column(db.String(120), nullable=False)
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
-	github_repo = db.Column(db.String(120), nullable=False, unique=True)
+	github_repo = db.Column(db.String(120), nullable=True, unique=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=True)
+	tag = db.Column(db.String, nullable=True)
 
 	# id of the user; 'user' is not the object, but the table name!
 	def __repr__(self):
@@ -69,9 +70,9 @@ class Project(db.Model):
 			self.title, self.date, self.user_id)
 
 
-class Tag(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	name = db.Column(db.String(20), nullable=False, unique=True)
-	project_id = db.relationship('Project', backref='tag', lazy=True)
+# class Tag(db.Model):
+# 	id = db.Column(db.Integer, primary_key=True)
+# 	name = db.Column(db.String(20), nullable=False, unique=True)
+# 	project_id = db.relationship('Project', backref='tag', lazy=True)
 
-# TODO: Create post tags?
+# TODO: Link posts to projects

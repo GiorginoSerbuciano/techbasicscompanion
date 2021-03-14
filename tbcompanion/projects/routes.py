@@ -4,7 +4,7 @@ from flask_login import current_user
 from flask_login.utils import login_required
 from tbcompanion import db
 from tbcompanion.projects.forms import ProjectForm
-from tbcompanion.models import Project, Tag
+from tbcompanion.models import Project
 from werkzeug.utils import redirect
 
 projects = Blueprint('projects', __name__)
@@ -18,13 +18,17 @@ def project(project_id):
 @login_required
 def project_form():
 	form = ProjectForm()
-	tags = Tag.query.order_by(Tag.id).all()
+	tags = form.dropdown_tags
+	print('pass')
 	if form.validate_on_submit():
+		print('validated')
 		project = Project(
 			title=form.title.data,
 			content=form.content.data,
 			contributor=current_user,
-			github_repo=form.github_repo.data)
+			github_repo=form.github_repo.data,
+			tag=form.tag.data
+			)
 		db.session.add(project)
 		db.session.commit()
 		flash('Your project is live!', 'success')

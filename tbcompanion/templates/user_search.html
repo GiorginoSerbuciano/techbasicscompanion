@@ -3,10 +3,27 @@
 {% block content %}
 <h1>Registered users</h1>
 
-{% for user in users %}
-	<a href="{{ url_for('users.user_profile', user_id=user.id) }}"> {{ user.username }} </a>
+
+<table class="striped-table hover-table container-fluid">
+	<thead>
+    	<tr>
+			<th scope="col">id</th>
+    	  	<th scope="col">Name</th>
+    	</tr>
+  	</thead>
+	<tbody>
+		{% for user in users %}
+		<tr>
+            <th scope="col">{{ user.id }}</th>
+			<td><a href="{{ url_for('users.user_profile', user_id=user.id) }}"> {{ user.username }} </a></td>
+		</tr>
+		{% endfor %}
+    </tbody>
+</table>
+
+
 	<p></p>
 
-<!-- TODO: Table & searchbox -->
-{% endfor %}
+<!-- [DONE] TODO: Table-->
+<!-- TODO: Searchbox -->
 {% endblock content %}

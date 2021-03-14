@@ -1,7 +1,9 @@
 from flask_wtf.form import FlaskForm
 from wtforms.fields.core import SelectField, StringField
 from wtforms.fields.simple import SubmitField, TextAreaField
-from wtforms.validators import URL, DataRequired, Length
+from wtforms.validators import URL, DataRequired, Length, ValidationError
+from tbcompanion.models import Project
+from urllib.parse import urlparse
 
 
 class ProjectForm(FlaskForm):
@@ -14,8 +16,23 @@ class ProjectForm(FlaskForm):
 	])
 	github_repo = StringField('URL to GitHub Repository', validators=[
 		Length(max=120),
-		URL('https://github.com/')
+		URL()
 	])
-	drop_tag = ['None', 'Art', 'Social', 'Data', 'Library', 'Meta', 'Other']
-	tag = SelectField('Tag', choices=drop_tag, default=1)
+	dropdown_tags = [
+		(None,'None'), 
+		('art','Art'), 
+		('soc','Social'), 
+		('dat','Data'),
+		('lib','Library'),
+		('met','Meta'),
+		('etc','Other')]
+	tag = SelectField('Tag',choices=dropdown_tags)
 	submit = SubmitField('Release project')
+	
+	def validate_github_repo(self, github_repo):
+		project = Project.query.filter_by(github_repo=github_repo.data).first()
+		parse = urlparse(github_repo.data)
+		if project:
+			raise ValidationError('This GitHub repository is linked to a different project. Please update the already-existing project if you are a contributor.')
+		elif parse.scheme != 'https' or parse.netloc != 'github.com':
+			raise ValidationError('Invalid URL.')

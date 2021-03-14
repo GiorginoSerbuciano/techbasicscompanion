@@ -23,10 +23,10 @@ def register():
 		user = User(username=form.username.data, email=form.email.data, password=hashed_pass)
 		db.session.add(user)
 		db.session.commit()
-		flash(f'Welcome, {form.username.data}!', 'success')
+		flash(f'Welcome, {form.username.data}! You will shortly receive an activation email.', 'success')
 		return redirect(url_for('main.home'))
 	return render_template('register.html', title='Register', form=form)
-
+# TODO: E-mail confirmation 
 
 ### ACCOUNT PAGE & DETAILS UPDATE ### 
 @accounts.route('/account', methods=['GET', 'POST'])
