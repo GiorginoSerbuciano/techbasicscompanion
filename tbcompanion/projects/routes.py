@@ -25,7 +25,8 @@ def project_form():
 		project = Project(
 			title=form.title.data,
 			content=form.content.data,
-			contributor=current_user,
+			admin=current_user,
+			contributors=form.contributors.data,
 			github_repo=form.github_repo.data,
 			tag=form.tag.data
 			)
