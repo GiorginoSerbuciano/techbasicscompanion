@@ -29,6 +29,8 @@ class ProjectForm(FlaskForm):
 	tag = SelectField('Tag',choices=dropdown_tags)
 	submit = SubmitField('Release project')
 	
+#TODO: Add contributors
+
 	def validate_github_repo(self, github_repo):
 		project = Project.query.filter_by(github_repo=github_repo.data).first()
 		parse = urlparse(github_repo.data)

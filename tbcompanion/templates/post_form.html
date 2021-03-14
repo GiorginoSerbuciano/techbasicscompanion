@@ -41,6 +41,21 @@
 				{{ form.content(class="form-control")}}
 			{% endif %}
 			</div>
+			<div>
+			{{ form.project_id.label(class="form-control-label")}}
+			<!-- Begin invalid form -->
+			{% if form.project_id.errors %}
+				{{ form.project_id(class="form-control is-invalid") }}
+				<div class='invalid-feedback'>
+					{% for error in form.project_id.errors %}
+					<span>{{ error }}</span>
+					{% endfor %}
+				</div>
+			<!-- End invalid form -->
+			{% else %}
+				{{ form.project_id(class="form-control")}}
+			{% endif %}
+			</div>
 		</div>
 	</fieldset>
 	<div>

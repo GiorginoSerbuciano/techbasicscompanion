@@ -1,7 +1,9 @@
 from flask_wtf.form import FlaskForm
-from wtforms.fields.core import StringField
+from flask_login import current_user
+from wtforms.fields.core import IntegerField, StringField
 from wtforms.fields.simple import SubmitField, TextAreaField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, ValidationError
+from tbcompanion.models import Project, User
 
 
 class PostForm(FlaskForm):
@@ -12,4 +14,14 @@ class PostForm(FlaskForm):
 	content = TextAreaField('Insert Text Here', validators=[
 		DataRequired()
 	])
+	project_id = IntegerField('This post is related to project-ID:', validators=[
+		DataRequired(),
+	])
 	submit = SubmitField('Publish post')
+
+	def validate_project_id(self, project_id):
+		project = Project.query.filter_by(id=project_id.data).first()
+		if project and project.contributor != current_user:
+				raise ValidationError('You are not contributing to this project. Please leave a comment on the project\'s page instead.')
+		elif not project:
+			raise ValidationError('This project does not exist.')
