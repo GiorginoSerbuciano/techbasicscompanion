@@ -4,7 +4,7 @@
 
 	<h1>{{ post.title }}</h1>
 	<p>By {{ post.author.username }} on {{ post.date.strftime('%A, the %dth of %B %Y') }}</p>
-	<p>{{ post.content }}</p>
+	<p>{{ post.content|markdown }}</p>
 	{% if post.author == current_user %}
 
 	<!-- TODO: Restyle button -->

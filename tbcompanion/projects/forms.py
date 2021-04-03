@@ -1,4 +1,5 @@
 from flask_wtf.form import FlaskForm
+from flask_pagedown.fields import PageDownField
 from wtforms.fields.core import SelectField, StringField
 from wtforms.fields.simple import SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired, Length, ValidationError
@@ -11,7 +12,7 @@ class ProjectForm(FlaskForm):
 		DataRequired(),
 		Length(min=2, max=80)
 	])
-	content = TextAreaField('Describe your project', validators=[
+	content = PageDownField('Describe your project', validators=[
 		DataRequired()
 	])
 	github_repo = StringField('URL to GitHub Repository', validators=[
