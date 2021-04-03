@@ -3,8 +3,10 @@
 {% block content %}
 
 	<h1>{{ project.title }}</h1>{{ project.id }}
+
 	<p>By {{ project.contributor.username }} on {{ project.date.strftime('%A, the %dth of %B %Y') }}</p>
 	<p>{{ project.content|markdown }}</p>
+
 	
 
 	<!-- TODO: Include tags -->

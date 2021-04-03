@@ -51,8 +51,10 @@
 	{% for project in projects %}
 		<div class="container bg-light pt-2 pb-2 margin">
 			<a href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a> [{{ project.tag }}]</h3>
+
 			<p>{{ project.content|markdown }}</p>
 			Contributors: <a href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a>
+
 			<p><a href="{{ project.github_repo }}">{{ project.title }} on GitHub</a></p></small>
 		</div>
 		<p></p>
