@@ -4,7 +4,7 @@
 
 	<h1>{{ project.title }}</h1>{{ project.id }}
 	<p>By {{ project.contributor.username }} on {{ project.date.strftime('%A, the %dth of %B %Y') }}</p>
-	<p>{{ project.content|markdown }}</p>
+	<p>{{ project.content }}</p>
 	
 
 	<!-- TODO: Include tags -->
