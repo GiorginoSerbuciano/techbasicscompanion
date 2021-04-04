@@ -6,10 +6,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 from tbcompanion import db, login_man
 
-contributor_table = db.Table('contributor_table',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('project_id', db.Integer, db.ForeignKey('project.id'))
-)
+
 
 @login_man.user_loader
 def load_user(user_id):
@@ -17,21 +14,18 @@ def load_user(user_id):
 
 
 class User(db.Model, UserMixin):
-
-	post_author = db.relationship('Post', backref='author', lazy=True)
-	project_admin = db.relationship('Project', backref='admin', lazy=True)
-	project_contributor = db.relationship('Project', secondary=contributor_table, back_populates='contributor_id')
-		
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
 	email = db.Column(db.String(120), unique=True, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	is_admin = db.Column(db.Boolean)
-
+	posts = db.relationship('Post', backref='author', lazy=True)
+	projects = db.relationship('Project', backref='contributor', lazy=True)
 
 	def __repr__(self):
-		return self.username
+		return "User('{}','{}','{}')".format(
+			self.username, self.email, self.image_file, self.posts)
 
 	def get_reset_token(self, expires_sec=900):
 		s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -51,7 +45,7 @@ class Post(db.Model):
 	title = db.Column(db.String(120), nullable=False)
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
-	author_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
 
 	def __repr__(self):
@@ -60,18 +54,15 @@ class Post(db.Model):
 
 
 class Project(db.Model):
-
-	contributor_id = db.relationship('User', secondary=contributor_table, back_populates='project_contributor')
-
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(120), nullable=False)
 	date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 	content = db.Column(db.Text, nullable=False)
 	github_repo = db.Column(db.String(120), nullable=True, unique=True)
-	admin_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	tag = db.Column(db.String, nullable=True)
 
 	def __repr__(self):
 		return "Project('{}','{}','{}')".format(
-			self.title, self.date, self.content)
+			self.title, self.date, self.user_id)
 

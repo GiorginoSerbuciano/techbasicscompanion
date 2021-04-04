@@ -54,22 +54,6 @@
 			{% else %}
 				{{ form.github_repo(class="form-control") }}
 			{% endif %}
-
-		<!-- Contributors field -->
-			<div>
-			{{ form.contributors.label(class="form-control-label") }}
-			<!-- Begin invalid form -->
-			{% if form.contributors.errors %}
-				{{ form.contributors(class="form-control is-invalid") }}
-				<div class='invalid-feedback'>
-					{% for error in form.contributors.errors %}
-					<span>{{ error }}</span>
-					{% endfor %}
-				</div>
-			<!-- End invalid form -->
-			{% else %}
-				{{ form.contributors(class="form-control") }}
-			{% endif %}
 			</div>
 				{{ form.tag.label }}
 				{{ form.tag }}
