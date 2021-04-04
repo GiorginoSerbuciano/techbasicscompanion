@@ -1,6 +1,5 @@
 from flask_wtf.form import FlaskForm
 from flask_login import current_user
-from flask_pagedown.fields import PageDownField
 from wtforms.fields.core import IntegerField, StringField
 from wtforms.fields.simple import SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, ValidationError
@@ -12,7 +11,7 @@ class PostForm(FlaskForm):
 		DataRequired(),
 		Length(max=120)
 	])
-	content = PageDownField('Insert Text Here', validators=[
+	content = TextAreaField('Insert Text Here', validators=[
 		DataRequired()
 	])
 	project_id = IntegerField('This post is related to project-ID:', validators=[

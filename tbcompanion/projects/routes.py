@@ -6,7 +6,6 @@ from tbcompanion import db
 from tbcompanion.projects.forms import ProjectForm
 from tbcompanion.models import Project
 from werkzeug.utils import redirect
-import markdown
 
 projects = Blueprint('projects', __name__)
 
