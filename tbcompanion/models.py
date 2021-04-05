@@ -7,8 +7,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from tbcompanion import db, login_man
 
 contributor_table = db.Table('contributor_table',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('project_id', db.Integer, db.ForeignKey('project.id'))
+	db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+	db.Column('project_id', db.Integer, db.ForeignKey('project.id'))
 )
 
 @login_man.user_loader
@@ -20,12 +20,13 @@ class User(db.Model, UserMixin):
 
 	post_author = db.relationship('Post', backref='author', lazy=True)
 	project_admin = db.relationship('Project', backref='admin', lazy=True)
-	project_contributor = db.relationship('Project', secondary=contributor_table, back_populates='contributor_id')
+	# projects = db.relationship('Project', secondary="contributor_table", lazy=True)	
+	#sqlalchemy.exc.ArgumentError: Error creating backref 'contributor' on relationship 'Project.contributor_id': property of that name exists on mapper 'mapped class User->user'
 		
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
 	email = db.Column(db.String(120), unique=True, nullable=False)
-	image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+	image_file = db.Column(db.String(20), nullable=False, default='profile_pics\default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	is_admin = db.Column(db.Boolean)
 
@@ -61,7 +62,7 @@ class Post(db.Model):
 
 class Project(db.Model):
 
-	contributor_id = db.relationship('User', secondary=contributor_table, back_populates='project_contributor')
+	contributors = db.relationship('User', secondary='contributor_table', backref='contribution_id')
 
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(120), nullable=False)

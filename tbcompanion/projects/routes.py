@@ -31,8 +31,9 @@ def project_form():
 			)
 		contributors_list = form.contributors.data.split(', ')
 		for c in contributors_list:
-			contributor = User.query.filter_by(username=c).first()
-			project.contributor_id.append(contributor)
+			contributor = User.query.filter_by(id=c).first()	#NoneType object?!
+			project.contributors.append(contributor)	#Applying the .first() executes the query, instead of storing the Query object it will return only the first result.
+			#AttributeError: 'User' object has no attribute 'append'
 		db.session.add(project)
 		db.session.commit()
 		flash('Your project is live!', 'success')
