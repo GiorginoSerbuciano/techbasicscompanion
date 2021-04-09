@@ -21,19 +21,23 @@ def project_form():
 	form = ProjectForm()
 	tags = form.dropdown_tags
 	if form.validate_on_submit():
+		formdata_contributors = form.contributors.data.split(', ')
+		project_contributors = []
+		if formdata_contributors[0] == '':
+			project_contributors.insert(0, current_user)
+		else:
+			for c in range(len(formdata_contributors)):
+				contributor = User.query.filter_by(username=formdata_contributors[c]).first()
+				project_contributors.append(contributor)
+				project_contributors.insert(0, current_user)
 		project = Project(
 			title=form.title.data,
 			content=form.content.data,
 			admin=current_user, 
-			#ISSUE: #10 AttributeError: 'str' object has no attribute '_sa_instance_state'
+			contributors=project_contributors,	#wants User objects
 			github_repo=form.github_repo.data,
 			tag=form.tag.data
 			)
-		contributors_list = form.contributors.data.split(', ')
-		for c in contributors_list:
-			contributor = User.query.filter_by(id=c).first()	#NoneType object?!
-			project.contributors.append(contributor)	#Applying the .first() executes the query, instead of storing the Query object it will return only the first result.
-			#AttributeError: 'User' object has no attribute 'append'
 		db.session.add(project)
 		db.session.commit()
 		flash('Your project is live!', 'success')
