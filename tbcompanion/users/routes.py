@@ -47,7 +47,8 @@ def search_users():
 def user_profile(user_id):
 	user = User.query.get_or_404(user_id)
 	posts = Post.query.filter_by(author=user)
-	projects = Project.query.filter_by(contributor=user)
+	projects = user.contribution_id
+	#sqlalchemy.exc.InvalidRequestError: Entity '<class 'tbcompanion.models.Project'>' has no property 'contributor'
 	return render_template('user_profile.html', 
 		user=user, 
 		posts=posts, 

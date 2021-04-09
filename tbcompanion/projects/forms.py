@@ -5,6 +5,7 @@ from wtforms.fields.simple import SubmitField, TextAreaField
 from wtforms.validators import URL, DataRequired, Length, ValidationError
 from tbcompanion.models import Project, User
 from urllib.parse import urlparse
+from flask_login import current_user
 
 
 class ProjectForm(FlaskForm):
@@ -43,9 +44,9 @@ class ProjectForm(FlaskForm):
 	def validate_contributors(self, contributors):
 		contributors_list = contributors.data.split(', ')
 		if len(contributors_list) > 1:
-			for contributor in contributors_list:
-				user = User.query.filter_by(username=contributor).first()
+			for c in contributors_list:
+				user = User.query.filter_by(id=c).first()
 				if not user:
-					raise ValidationError(f'The user "{contributor}" does not exist!')
+					raise ValidationError(f'User ID "{c}" does not exist!')
 				elif user == current_user:
 					raise ValidationError(f'No need to pass yourself as a contributor ;).')

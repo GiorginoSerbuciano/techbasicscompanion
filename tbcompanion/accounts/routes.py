@@ -32,8 +32,8 @@ def register():
 @accounts.route('/account', methods=['GET', 'POST'])
 @login_required
 def account_page():
-	posts = Post.query.filter_by(author=current_user)
-	projects = Project.query.filter_by(contributor=current_user)
+	posts = Post.query.filter_by(author=current_user).all()
+	projects = current_user.contribution_id
 	form = UpdateAccount()
 	if form.validate_on_submit():
 		print('Form validated!')

@@ -36,7 +36,7 @@
     	<tr>
 			<th scope="col">id</th>
     	  	<th scope="col">Title</th>
-    	  	<th scope="col">Author</th>
+    	  	<th scope="col">Contributors</th>
             <th scope="col">Tags</th>
     	  	<th scope="col">Date posted</th>
     	  	<th scope="col">Last updated</th>
@@ -47,7 +47,9 @@
 		<tr>
             <th scope="col">{{ project.id }}</th>
 			<td><a class="text-reset" href="{{ url_for('projects.project', project_id=project.id) }}">{{ project.title }}</a></td>
-            <td><a class="text-reset" href="{{ url_for('users.user_profile', user_id=project.contributor.id) }}">{{ project.contributor.username }}</a></td>
+			{% for contributor in project.contributors %}
+            <td><a class="text-reset" href="{{ url_for('users.user_profile', user_id=contributor.id) }}">{{ contributor.username }}</a></td>
+			{% endfor %}
             <td>None</td>
             <td>{{ project.date.strftime('%Y.%m.%d') }}</td>
 			<td>Never</td>
