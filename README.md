@@ -44,6 +44,7 @@ Before I got the hang of it, I mixed these up quite a couple of times, breaking 
 Nevertheless, Flask-WTForms is very elegant. As far as I can tell, this is what the basic structure of a form looks like:
 
 ```
+
 class FormName(FlaskForm):
 	field_name = FieldType('Field_Name', validators = [ValidatorOne(), ValidatorTwo()]
 	submit = SubmitField('SubmitText')
