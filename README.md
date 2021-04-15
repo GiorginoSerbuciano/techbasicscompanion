@@ -45,14 +45,14 @@ Nevertheless, Flask-WTForms is very elegant. As far as I can tell, this is what 
 
 ```
 
-class FormName(FlaskForm):
+	class FormName(FlaskForm):
 
-	field_name = FieldType('Field_Name', validators = [ValidatorOne(), ValidatorTwo()]
-	submit = SubmitField('SubmitText')
+		field_name = FieldType('Field_Name', validators = [ValidatorOne(), ValidatorTwo()]
+		submit = SubmitField('SubmitText')
     
-	def custom_validator(self, field_one):
-		<condition>:
-			raise ValidationError('ErrorText')
+		def custom_validator(self, field_one):
+			<condition>:
+				raise ValidationError('ErrorText')
 ```
 
 Validators are also very smoothly implemented; not only the pre-existing set, but defining custom validators. One of the most useful validators that I have used in this project uses this conditional pattern:
