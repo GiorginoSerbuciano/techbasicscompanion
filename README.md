@@ -42,6 +42,7 @@ object | role
 Before I got the hang of it, I mixed these up quite a couple of times, breaking the form-route-database information transfer errorlessly.
 
 Nevertheless, Flask-WTForms is very elegant. As far as I can tell, this is what the basic structure of a form looks like:
+
 ```
 class FormName(FlaskForm):
 	field_name = FieldType('Field_Name', validators = [ValidatorOne(), ValidatorTwo()]
@@ -51,7 +52,9 @@ class FormName(FlaskForm):
 		<condition>:
 			raise ValidationError('ErrorText')
 ```
+
 Validators are also very smoothly implemented; not only the pre-existing set, but defining custom validators. One of the most useful validators that I have used in this project uses this conditional pattern:
+
 ```
 def validate_email(self, email):
 	user = User.query.filter_by(email=email.data).first()
