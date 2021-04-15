@@ -46,6 +46,7 @@ Nevertheless, Flask-WTForms is very elegant. As far as I can tell, this is what 
 ```
 
 class FormName(FlaskForm):
+
 	field_name = FieldType('Field_Name', validators = [ValidatorOne(), ValidatorTwo()]
 	submit = SubmitField('SubmitText')
     
