@@ -17,23 +17,22 @@ projects = Blueprint('projects', __name__)
 
 @projects.route('/project/<int:project_id>', methods=['GET'])
 def project(project_id):
-	'''
+	"""
 	This page displays an already-existing project.
 
 	:param project_id:
 	:return:
-	'''
+	"""
 	g = OAuth2Session(client_id)
 	project_to_display = Project.query.get_or_404(project_id)
 
 	def retrieve_readme(query_repo):
-		'''
+		"""
 		If a valid Github repository is assigned to the project displayed, this function will retrieve its README.
 
 		:param query_repo: The repository assigned to the project displayed, equal to project_to_display.github_repo.
-		:var readme:
-		:return:
-		'''
+		:return: (try) Markdown-compatible text {str}; (except) Error text replacing README text {str}.
+		"""
 		repository = query_repo.github_repo[19:]	# removes 'https://github.com'
 		try:
 			request = g.get(f'https://api.github.com/repos/{repository}/readme').json()
