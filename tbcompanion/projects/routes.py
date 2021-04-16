@@ -8,30 +8,21 @@ from tbcompanion.models import Project, User
 from werkzeug.utils import redirect
 from tbcompanion.config import Config
 from github import Github
-import io
 
 projects = Blueprint('projects', __name__)
-g = Github(
-	client_id = Config.CLIENT_ID,
-	client_secret = Config.CLIENT_SECRET)
-
 
 @projects.route('/project/<int:project_id>', methods=['GET'])
 def project(project_id):
 	project = Project.query.get_or_404(project_id)
-	github_user = g.get_user('GiorginoSerbuciano')
-	github_project_repo = github_user.get_repo('techbasicscompanion')
-	github_project_readme = github_project_repo.get_contents("README.md")
-	github_project_readme_str = github_project_readme.decoded_content.decode()
-	# with open(r'tbcompanion\accounts\readme.md', 'wb') as readme:
-	#	readme.write(github_project_readme.decoded_content)
+	readme_file = open(r'tbcompanion\accounts\readme.md', 'rb')
+	readme_text = readme_file.read().decode()
 
 
 	return render_template(
 		'project_view.html',
 		title=project.title,
 		project=project,
-		readme=github_project_readme_str)
+		readme=readme_text)
 
 
 @projects.route('/project/new', methods=['GET', 'POST'])
