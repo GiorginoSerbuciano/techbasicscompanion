@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
 from requests_oauthlib import OAuth2Session
 from sqlalchemy import desc
 
@@ -33,14 +33,7 @@ def callback():
 						  client_secret=client_secret,
 						  authorization_response=request.url)
 	session['oauth_state'] = token
-	return redirect(url_for('main.home'))
-
-
-@main.route('/github_profile', methods=['GET'])
-def profile():
-	github = OAuth2Session(client_id, token=session['oauth_token'])
-	return jsonify(github.get('https://api.github.com/user').json())
-
+	return redirect(url_for('.profile'))
 
 @main.route('/', methods=['GET', 'POST'])
 def home():
