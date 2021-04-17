@@ -26,20 +26,21 @@ def project(project_id):
 	g = OAuth2Session(client_id)
 	project_to_display = Project.query.get_or_404(project_id)
 
-	def retrieve_readme(query_repo):
+	def retrieve_readme(query_project):
 		"""
 		If a valid Github repository is assigned to the project displayed, this function will retrieve its README.
 
-		:param query_repo: The repository assigned to the project displayed, equal to project_to_display.github_repo.
+		:param query_project: Passes 'project_to_display' {Project} to function.
 		:return: (try) Markdown-compatible text {str}; (except) Error text replacing README text {str}.
 		"""
-		repository = query_repo.github_repo[19:]	# removes 'https://github.com'
+		repository = query_project.github_repo[18:]
+		""" removes 'https://github.com' from project repository URL -> /user/repository"""
 		try:
-			request = g.get(f'https://api.github.com/repos/{repository}/readme').json()
+			request = g.get(f'https://api.github.com/repos{repository}/contents/README.md?ref=main').json()
 			readme = base64.b64decode(request['content']).decode()	# base64 -> bytes -> string
 			return readme
 		except KeyError:	# raised by readme when request returns <Response[404]>
-			error_text = f"Github API: {request['message']}. Couldn't find a README in repository {repository}."
+			error_text = f"Github API: Couldn't find a README in repository '{repository}'."
 			return error_text
 
 	project_readme = retrieve_readme(project_to_display)

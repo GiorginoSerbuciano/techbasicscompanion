@@ -36,10 +36,16 @@ def callback():
 	return redirect(url_for('.home'))
 
 
-@main.route('/github_profile', methods=['GET'])
-def github_profile():
+@main.route('/github_profile/user', methods=['GET'])
+def github_user_profile():
 	g = OAuth2Session(client_id, token=session['oauth_token'])
 	return jsonify(g.get('https://api.github.com/user').json())
+
+
+@main.route('/github_profile/repos', methods=['GET'])
+def github_user_repos():
+	g = OAuth2Session(client_id, token=session['oauth_token'])
+	return jsonify(g.get('https://api.github.com/users/GiorginoSerbuciano/repos').json())
 
 
 @main.route('/', methods=['GET', 'POST'])
