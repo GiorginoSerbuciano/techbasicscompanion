@@ -6,11 +6,12 @@ from requests_oauthlib import OAuth2Session
 from werkzeug.utils import redirect
 
 from tbcompanion import db
-from tbcompanion.main.routes import client_id
+from tbcompanion.main.routes import client_id, session
 from tbcompanion.models import Project, User
 from tbcompanion.projects.forms import ProjectForm
 
 import base64
+import json
 
 projects = Blueprint('projects', __name__)
 
@@ -20,36 +21,54 @@ def project(project_id):
 	"""
 	This page displays an already-existing project.
 
-	:param project_id:
-	:return:
+	:param project_id: The ID of the project to be read from the database and presented in a HTML format.
+	:return: HTML page presenting the desired project.
 	"""
-	g = OAuth2Session(client_id)
+	g = OAuth2Session(client_id, token=session['oauth_token'])
 	project_to_display = Project.query.get_or_404(project_id)
+	repository = g.get(project_to_display.github_repo)
 
-	def retrieve_readme(query_project):
+	def retrieve_readme():
 		"""
-		If a valid Github repository is assigned to the project displayed, this function will retrieve its README.
+		Request the README of a valid Github repository. If successful, decode the contents of the response.
 
-		:param query_project: Passes 'project_to_display' {Project} to function.
-		:return: (try) Markdown-compatible text {str}; (except) Error text replacing README text {str}.
+		:return: String, ready for Markdown.
+		:except: If no README is found, return an error message.
 		"""
-		repository = query_project.github_repo[18:]
-		""" removes 'https://github.com' from project repository URL -> /user/repository"""
+
 		try:
-			request = g.get(f'https://api.github.com/repos{repository}/contents/README.md?ref=main').json()
-			readme = base64.b64decode(request['content']).decode()	# base64 -> bytes -> string
+			request_readme = g.get(f'https://api.github.com/repos{repository.request.path_url}/contents/README.md?ref=main').json()
+			readme = base64.b64decode(request_readme['content']).decode()	# base64 -> bytes -> string
 			return readme
-		except KeyError:	# raised by readme when request returns <Response[404]>
-			error_text = f"Github API: Couldn't find a README in repository '{repository}'."
+		except KeyError:
+			error_text = f"Github API: 404 Not Found."
 			return error_text
 
-	project_readme = retrieve_readme(project_to_display)
+	def retrieve_license():
+		"""
+		Request the LICENSE of a valid Github repository. If successful, request the API URL of the license.
+		:return: JSON-encoded contents of the response.
+		:except: If no license is found, return a 'pseudo-response'.
+		"""
+
+		try:
+			request_license = g.get(f'https://api.github.com/repos{repository.request.path_url}/license').json()
+			request_license_json = request_license['license']
+			license_json = g.get(f"https://api.github.com/licenses/{request_license_json['key']}").json()
+			return license_json
+		except KeyError:
+			no_license = {'html_url': 'https://choosealicense.com/no-permission/', 'name': 'no license'}
+			return no_license
+
+	project_readme = retrieve_readme()
+	project_license = retrieve_license()
 
 	return render_template(
 		'project_view.html',
 		title=project_to_display.title,
 		project=project_to_display,
-		readme=project_readme)
+		readme=project_readme,
+		license=project_license)
 
 
 @projects.route('/project/new', methods=['GET', 'POST'])

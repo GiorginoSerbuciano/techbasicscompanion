@@ -7,10 +7,12 @@
 	{% for contributor in project.contributors %}
 		{{ contributor }}
 	{% endfor %}</p>
-	<p>Created on {{ project.date.strftime('%A, the %dth of %B %Y') }}</p>
-	<p>Last updated on</p>
-	{{ readme|markdown }}
+	<p>Published on {{ project.date.strftime('%A, the %dth of %B %Y') }}
+		under <a href="{{ license['html_url'] }}">{{ license['name'] }}</a></p>
 	{{ project.content|markdown }}
+	<h3>README</h3>
+	{{ readme|markdown }}
+
 
 	
 
