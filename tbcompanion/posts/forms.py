@@ -22,7 +22,7 @@ class PostForm(FlaskForm):
 
 	def validate_project_id(self, project_id):
 		project = Project.query.filter_by(id=project_id.data).first()
-		if project and project.contributor != current_user:	# TODO Fix AttributeError: 'Project' object has no attribute 'contributor'
+		if project and project.contributor != current_user:
 				raise ValidationError('You are not contributing to this project. Please leave a comment on the project\'s page instead.')
 		elif not project:
 			raise ValidationError('This project does not exist.')
