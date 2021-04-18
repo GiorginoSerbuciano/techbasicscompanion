@@ -1,7 +1,10 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 admin = Blueprint('admin', __name__)
 
-@admin.route('/admin', methods = ['GET', 'POST'])
+
+@admin.route('/admin', methods=['GET', 'POST'])
 def admin_panel():
-	return render_template('admin.html')
+	"""Placeholder for future implementation"""
+
+	return redirect(url_for('main.home'))

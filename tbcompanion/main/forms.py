@@ -5,9 +5,9 @@ from wtforms.validators import DataRequired
 
 
 class SearchBox(FlaskForm):
+	"""Placeholder for a future implementation"""
+
 	string = StringField('Search for a post, user or project', validators=[
 		DataRequired()])
 	submit = SubmitField('Search')
-
-# TODO
 

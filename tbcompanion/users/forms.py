@@ -5,7 +5,8 @@ from wtforms.validators import DataRequired, Email
 
 
 class LoginForm(FlaskForm):
-	# username not used for login
+	"""This is the login form."""
+
 	email = StringField('Email', validators=[
 		DataRequired(),
 		Email()

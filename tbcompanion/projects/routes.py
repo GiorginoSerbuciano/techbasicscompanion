@@ -1,3 +1,5 @@
+import base64
+
 from flask import Blueprint, render_template, url_for
 from flask.helpers import flash
 from flask_login import current_user
@@ -9,9 +11,6 @@ from tbcompanion import db
 from tbcompanion.main.routes import client_id, session
 from tbcompanion.models import Project, User
 from tbcompanion.projects.forms import ProjectForm
-
-import base64
-import json
 
 projects = Blueprint('projects', __name__)
 
@@ -74,11 +73,16 @@ def project(project_id):
 @projects.route('/project/new', methods=['GET', 'POST'])
 @login_required
 def project_form():
+	"""This is the page for creating a new project"""
+
 	form = ProjectForm()
 	tags = form.dropdown_tags
+
 	if form.validate_on_submit():
 		form_data_contributors = form.contributors.data.split(', ')
 		project_contributors = []
+
+		"""If the user assigns no contributors, the current user is defined as the sole contributor."""
 		if form_data_contributors[0] == '':
 			project_contributors.insert(0, current_user)
 		else:
@@ -86,16 +90,19 @@ def project_form():
 				contributor = User.query.filter_by(username=form_data_contributors[c]).first()
 				project_contributors.append(contributor)
 				project_contributors.insert(0, current_user)
-		project = Project(
-			title=form.title.data,
-			content=form.content.data,
-			admin=current_user,
-			contributors=project_contributors,  # wants User objects
-			github_repo=form.github_repo.data,
-			tag=form.tag.data
-		)
-		db.session.add(project)
+
+		new_project = Project(title=form.title.data,
+							  content=form.content.data,
+							  admin=current_user,
+							  contributors=project_contributors,  # wants User objects, not names or IDs!
+							  github_repo=form.github_repo.data,
+							  tag=form.tag.data
+							  )
+
+		db.session.add(new_project)
 		db.session.commit()
+
 		flash('Your project is live!', 'success')
 		return redirect(url_for('main.home'))
+
 	return render_template('project_form.html', form=form, type='project', tags=tags)
