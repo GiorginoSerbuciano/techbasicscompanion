@@ -7,16 +7,19 @@
 	{% for contributor in project.contributors %}
 		{{ contributor }}
 	{% endfor %}</p>
-	<p>Created on {{ project.date.strftime('%A, the %dth of %B %Y') }}</p>
-	<p>Last updated on</p> 
+	<p>Published on {{ project.date.strftime('%A, the %dth of %B %Y') }}
+		under <a href="{{ license['html_url'] }}">{{ license['name'] }}</a></p>
 	{{ project.content|markdown }}
+	<h3>README</h3>
+	{{ readme|markdown }}
+
 
 	
 
 	<!-- TODO: Include tags -->
 	<!-- TODO: Implement rich text -->
-	<!-- TODO: Update -->
-	<!-- TODO: Delete -->
-	<!-- TODO: Formatting -->
+	<!-- TODO: Update button -->
+	<!-- TODO: Delete button -->
+	<!-- TODO: Template formatting -->
 	<!-- TODO: 'Last updated on' -->
 {% endblock content %}
