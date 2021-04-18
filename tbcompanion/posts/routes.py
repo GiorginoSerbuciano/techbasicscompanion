@@ -49,7 +49,7 @@ def update_post(post_id):
 
 	post_query = Post.query.get_or_404(post_id)
 
-	if post_query.author != current_user:  # Only the post's author can edit it..
+	if post_query.author != current_user:  # Only the post's author can edit it.
 		abort(403)
 
 	form = PostForm()

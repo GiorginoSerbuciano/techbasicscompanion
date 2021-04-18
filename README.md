@@ -1,5 +1,11 @@
 # Tech Basics Companion v0.1.0-alpha
 
+![GitHub](https://img.shields.io/github/license/giorginoserbuciano/techbasicscompanion?style=flat-square) 
+![GitHub last commit](https://img.shields.io/github/last-commit/giorginoserbuciano/techbasicscompanion?style=flat-square)
+![GitHub top language](https://img.shields.io/github/languages/top/giorginoserbuciano/techbasicscompanion?style=flat-square)
+
+A Flask-SQLAlchemy website for sharing Python-related projects among Tech Basics students and alumni. Projects are linked to their respective Github repositories, from which information about the project is drawn through the Github API and presented on the site.
+
 _This project is built from scratch, following CoreyMS's Flask-SQLAlchemy tutorial series. You can find these code snippets [forked on my GitHub profile](https://github.com/GiorginoSerbuciano/code_snippets/tree/master/Python/Flask_Blog)._
 
 Before starting work on TBCOMP, I had been planning to repurpose one of my other applications, DesktopSort, into a Python code analyser/file manipulation software, but I ultimately decided against that for the following reasons:
@@ -49,8 +55,7 @@ It turns out that silent failures are actually very easy to cause in WTForms; no
 	</tr>
 	<tr>
 		<td>`field_name.data`</td>
-		<td>The data returned from field `field_name`, seen from inside the context of a form.</tr>
-	</tr>		
+		<td>The data returned from field `field_name`, seen from inside the context of a form.</tr>	
 	<tr>
 		<td>`field_name`</td>
 		<td>The field entity.</td>
@@ -110,6 +115,6 @@ Not all problems were equally educative. I had set up the password reset email s
 
 A brief note on using GitHub: If you look at the commits on the project, you'll notice that my interaction with GitHub got more sophisiticated at some point in March. This is when I figured out how pushing, pulling, stashing, branching, etc. all work, so I've been using them to the greatest extent that I can. It's actually turning out to be very useful in a number of ways, the most important of which is that I can now commit changes very precisely; I sometimes commit one file at a time if the change I have made is significant only to that file. I'm also getting into the habit of creating issues and working on branches. All of this helps me navigate the project's history much quicker&mdash;which also makes it easier to document&mdash;and lets me reverse experimentation on one file without reversing what already worked well in 50 others.
 
-I would like to look at a very recent example of an issue that really stretched my nerves, namely #8 Project creators cannot set contributors. In this issue, I dealt with many-to-many relationships between Flask-SQLAlchemy models for the first time. I'm going to use a slash to mirror the task: The task was to assign users as contributors to projects,/and to assign projects with contributors which were users. The left side of the slash was necessary in order to allow multiple users to be contributors of projects, while the right side allows projects to keep a record of which users are contributing to it for look-up purposes. The reason why I want to attribute multiple contributors to each project (and not just one author) is because, first of all, it's not impossible that more than one person works on a project&mdash;it's actually quite common in Tech Basics seminars, as it turns out&mdash;, so I want multiple people to be able to create posts on the project's page (yet to be implemented) and to edit projects (I have not yet figured out what the privileges of a project admin should be, if any).
+An issue that really stretched my nerves was #8 Project creators cannot set contributors. In this issue, I dealt with many-to-many relationships between Flask-SQLAlchemy models for the first time. I'm going to use a slash to mirror the task: The task was to assign users as contributors to projects,/and to assign projects with contributors which were users. The left side of the slash was necessary in order to allow multiple users to be contributors of projects, while the right side allows projects to keep a record of which users are contributing to it for look-up purposes. The reason why I want to attribute multiple contributors to each project (and not just one author) is because, first of all, it's not impossible that more than one person works on a project&mdash;it's actually quite common in Tech Basics seminars, as it turns out&mdash;, so I want multiple people to be able to create posts on the project's page (yet to be implemented) and to edit projects. I have not yet figured out what the privileges of a project admin should be, if any).
 
 
