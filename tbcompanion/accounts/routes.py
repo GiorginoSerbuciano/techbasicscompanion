@@ -109,7 +109,7 @@ def password_reset_request():
 						   form=form)
 
 
-@accounts.route('/passwordReset/<token>', methods=['POST'])
+@accounts.route('/passwordReset/<token>', methods=['GET','POST'])
 def password_reset(token):
 	"""Password reset link redirects to this page. Resets user's password. """
 

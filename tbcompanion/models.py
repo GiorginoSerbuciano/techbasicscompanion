@@ -7,29 +7,26 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from tbcompanion import db, login_man
 
 contributor_table = db.Table('contributor_table',
-	db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-	db.Column('project_id', db.Integer, db.ForeignKey('project.id'))
-)
+							 db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+							 db.Column('project_id', db.Integer, db.ForeignKey('project.id'))
+							 )
+
 
 @login_man.user_loader
-def load_user(id):
-	return User.query.get(int(id))
+def load_user(user_id):
+	return User.query.get(int(user_id))
 
 
 class User(db.Model, UserMixin):
-
 	post_author = db.relationship('Post', backref='author', lazy=True)
 	project_admin = db.relationship('Project', backref='admin', lazy=True)
-	# projects = db.relationship('Project', secondary="contributor_table", lazy=True)	
-	#sqlalchemy.exc.ArgumentError: Error creating backref 'contributor' on relationship 'Project.contributor_id': property of that name exists on mapper 'mapped class User->user'
-		
+
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(20), unique=True, nullable=False)
 	email = db.Column(db.String(120), unique=True, nullable=False)
 	image_file = db.Column(db.String(20), nullable=False, default='profile_pics\default.jpg')
 	password = db.Column(db.String(60), nullable=False)
 	is_admin = db.Column(db.Boolean)
-
 
 	def __repr__(self):
 		return self.username
@@ -47,6 +44,7 @@ class User(db.Model, UserMixin):
 			return None
 		return User.query.get(user_id)
 
+
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(120), nullable=False)
@@ -61,7 +59,6 @@ class Post(db.Model):
 
 
 class Project(db.Model):
-
 	contributors = db.relationship('User', secondary='contributor_table', backref='contribution_id')
 
 	id = db.Column(db.Integer, primary_key=True)
@@ -75,4 +72,3 @@ class Project(db.Model):
 	def __repr__(self):
 		return "Project('{}','{}','{}')".format(
 			self.title, self.date, self.content)
-

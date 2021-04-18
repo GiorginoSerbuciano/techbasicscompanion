@@ -30,7 +30,7 @@ class PostForm(FlaskForm):
 
 		"""Raise ValidationError if the project exists but the current user is not a contributor,
 		   or if the project does not exist."""
-		if project and project.contributor != current_user:
+		if project and current_user not in project.contributors:
 			raise ValidationError('You are not contributing to this project. '
 								  'Please leave a comment on the project\'s page instead.')
 		elif not project:
