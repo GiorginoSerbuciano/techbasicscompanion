@@ -2,10 +2,9 @@ Folder PATH listing
 Volume serial number is B8E9-2D67
 C:.
 |   .gitattributes
+|   .gitignore
+|   LICENSE
 |   main.py
-|   README.md
-|   setup.py
-|   tag inserts.sql
 |   tree.txt
 |   
 +---.idea
@@ -30,13 +29,16 @@ C:.
     |   
     +---accounts
     |       forms.py
-    |       func.py
     |       routes.py
     |       __init__.py
     |       
     +---admin
     |       forms.py
     |       routes.py
+    |       __init__.py
+    |       
+    +---errors
+    |       handlers.py
     |       __init__.py
     |       
     +---main
@@ -49,6 +51,43 @@ C:.
     |       routes.py
     |       __init__.py
     |       
+    +---profile_pics
+    |   |   bear.png
+    |   |   crab.png
+    |   |   frog.png
+    |   |   oink.png
+    |   |   parrot.png
+    |   |   pengui.png
+    |   |   rhino.png
+    |   |   sloth.png
+    |   |   squiui.png
+    |   |   
+    |   \---xcf
+    |           bear.xcf
+    |           butterfly.xcf
+    |           chick.xcf
+    |           crab.xcf
+    |           elephant.xcf
+    |           fox.xcf
+    |           frog.xcf
+    |           giraffe.xcf
+    |           goldfish.xcf
+    |           hawk.xcf
+    |           jellyfish.xcf
+    |           koala.xcf
+    |           ladybug.xcf
+    |           llama.xcf
+    |           oink.xcf
+    |           parrot.xcf
+    |           pengui.xcf
+    |           pidgeon.xcf
+    |           rhino.xcf
+    |           sloth.xcf
+    |           snail.xcf
+    |           squiui.xcf
+    |           tiger.xcf
+    |           turtle.xcf
+    |           
     +---projects
     |       forms.py
     |       routes.py
@@ -59,30 +98,32 @@ C:.
     |       main.css
     |       
     +---templates
-    |       about.html
-    |       account.html
-    |       admin.html
-    |       home.html
-    |       layout.html
-    |       login.html
-    |       modal.html
-    |       new.html
-    |       password_reset.html
-    |       password_reset_request.html
-    |       post_form.html
-    |       post_view.html
-    |       project_form.html
-    |       project_view.html
-    |       register.html
-    |       user_profile.html
-    |       user_search.html
-    |       user_template.html
-    |       
+    |   |   about.html
+    |   |   account.html
+    |   |   admin.html
+    |   |   home.html
+    |   |   layout.html
+    |   |   login.html
+    |   |   modal.html
+    |   |   new.html
+    |   |   password_reset.html
+    |   |   password_reset_request.html
+    |   |   post_form.html
+    |   |   post_view.html
+    |   |   project_form.html
+    |   |   project_view.html
+    |   |   register.html
+    |   |   search_result.html
+    |   |   user_profile.html
+    |   |   user_search.html
+    |   |   
+    |   \---errors
+    |           error_403.html
+    |           error_404.html
+    |           error_500.html
+    |           
     \---users
             forms.py
-            func.py
             routes.py
-            Search.code-search
             __init__.py
             
-TODO: Update TREE
