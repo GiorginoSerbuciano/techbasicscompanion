@@ -30,14 +30,14 @@ class ProjectForm(FlaskForm):
 		('etc','Other')]
 	tag = SelectField('Tag',choices=dropdown_tags)
 	submit = SubmitField('Release project')
-
+	
+#TODO: #8 Add contributors
 
 	def validate_github_repo(self, github_repo):
 		project = Project.query.filter_by(github_repo=github_repo.data).first()
 		parse = urlparse(github_repo.data)
 		if project:
-			raise ValidationError('''This GitHub repository is linked to a different project.
-								  Please update the already-existing project if you are a contributor.''')
+			raise ValidationError('This GitHub repository is linked to a different project. Please update the already-existing project if you are a contributor.')
 		elif parse.scheme != 'https' or parse.netloc != 'github.com':
 			raise ValidationError('Invalid URL.')
 
@@ -50,5 +50,3 @@ class ProjectForm(FlaskForm):
 					raise ValidationError(f'User ID "{c}" does not exist!')
 				elif user == current_user:
 					raise ValidationError(f'No need to pass yourself as a contributor ;).')
-
-
